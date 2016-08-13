@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.a.eye.bot.user.service.dao.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.a.eye.bot.user.service.entity.Company" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="log" property="log" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="depts" property="depts" jdbcType="VARCHAR" />
+    <result column="companys" property="companys" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, log, describe, depts, companys
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from company
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from company
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.a.eye.bot.user.service.entity.Company" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into company (name, log, describe, 
+      depts, companys)
+    values (#{name,jdbcType=VARCHAR}, #{log,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+      #{depts,jdbcType=VARCHAR}, #{companys,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.a.eye.bot.user.service.entity.Company" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="log != null" >
+        log,
+      </if>
+      <if test="describe != null" >
+        describe,
+      </if>
+      <if test="depts != null" >
+        depts,
+      </if>
+      <if test="companys != null" >
+        companys,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="log != null" >
+        #{log,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="depts != null" >
+        #{depts,jdbcType=VARCHAR},
+      </if>
+      <if test="companys != null" >
+        #{companys,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.a.eye.bot.user.service.entity.Company" >
+    update company
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="log != null" >
+        log = #{log,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="depts != null" >
+        depts = #{depts,jdbcType=VARCHAR},
+      </if>
+      <if test="companys != null" >
+        companys = #{companys,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.a.eye.bot.user.service.entity.Company" >
+    update company
+    set name = #{name,jdbcType=VARCHAR},
+      log = #{log,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      depts = #{depts,jdbcType=VARCHAR},
+      companys = #{companys,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

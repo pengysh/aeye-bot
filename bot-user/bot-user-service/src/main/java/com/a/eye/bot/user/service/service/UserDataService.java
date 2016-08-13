@@ -20,7 +20,7 @@ import com.a.eye.bot.user.share.redis.UserInfoJedisRepository;
  * @Title: UserDataService.java
  * @author: pengysh
  * @date 2016年8月9日 下午2:38:44
- * @Description:
+ * @Description:用户数据
  */
 @Service
 @Transactional

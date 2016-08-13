@@ -1,6 +1,8 @@
 package com.a.eye.bot.user.service.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,9 +62,34 @@ public class UserFriendsService {
 
 			List<UserInfo> userInfoList = userService.getBatchUserData(userIds);
 			String userFriendsJson = gson.toJson(userInfoList);
-			
+
 			logger.debug("用户好友查询结果：" + userFriendsJson);
 			return userFriendsJson;
+		}
+	}
+
+	/**
+	 * @Title: getUserFriendIds
+	 * @author: pengysh
+	 * @date 2016年8月14日 上午1:12:52
+	 * @Description:获取好友ID
+	 * @param userId
+	 * @return
+	 */
+	public Map<Long, Long> getUserFriendIds(Long userId) {
+		logger.debug("用户好友查询：" + userId);
+		UserFriends userFriends = userFriendsMapper.selectByPrimaryKey(userId);
+		String friends = userFriends.getFriends();
+		if (StringUtils.isEmpty(friends)) {
+			return null;
+		} else {
+			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
+
+			Map<Long, Long> userIdMap = new HashMap<Long, Long>();
+			for (int i = 0; i < friendsJson.size(); i++) {
+				userIdMap.put(friendsJson.get(i).getAsLong(), friendsJson.get(i).getAsLong());
+			}
+			return userIdMap;
 		}
 	}
 }

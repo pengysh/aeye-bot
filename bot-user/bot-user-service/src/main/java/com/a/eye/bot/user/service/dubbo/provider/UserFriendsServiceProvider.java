@@ -17,4 +17,5 @@ public class UserFriendsServiceProvider implements IUserFriendsServiceProvider {
 		return userFriendsService.getUserFriends(userId);
 	}
 
+	
 }

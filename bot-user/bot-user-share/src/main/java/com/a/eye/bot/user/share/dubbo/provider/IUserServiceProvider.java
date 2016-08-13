@@ -51,4 +51,5 @@ public interface IUserServiceProvider {
 	 * @return
 	 */
 	public String getBatchUserData(String userIdJsonArray);
+
 }

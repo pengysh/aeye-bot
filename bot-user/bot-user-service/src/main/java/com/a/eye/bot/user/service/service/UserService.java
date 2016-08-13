@@ -37,7 +37,7 @@ public class UserService {
 
 	@Autowired
 	private UserAuthServiceConsumer userAuthService;
-	
+
 	@Autowired
 	private UserInfoJedisRepository userInfoJedisRepository;
 
