@@ -1,41 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
 <meta charset="utf-8">
-<div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox chat-view">
-				<div class="ibox-content">
-					<div class="row">
-						<div class="col-md-9 ">
-							<div id="messageContent" class="chat-discussion"></div>
-						</div>
-						<div class="col-md-3">
-							<div class="tabs-container">
-								<ul class="nav nav-tabs chat-statistic">
-									<li class="active">
-										<a data-toggle="tab" href="#persontalk">
-											<i class="fa fa-user"></i>
-											个人
-										</a>
-									</li>
-									<li class="">
-										<a data-toggle="tab" href="#grouptalk">
-											<i class="fa fa-group"></i>
-											群聊
-										</a>
-									</li>
-								</ul>
-								<div class="chat-users tab-content">
-									<div class="tab-pane active" id="persontalk"></div>
-									<div class="tab-pane" id="grouptalk">
-										<div class="chat-user">
-											<div class="chat-user-name">
-												<a href="#">群聊暂不可用</a>
-											</div>
-										</div>
-										<div class="chat-user">
-											<div class="chat-user-name">
-												<a href="#">群聊暂不可用</a>
-											</div>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会议预定系统</title>
+</head>
+<body>
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="ibox chat-view">
+					<div class="ibox-content">
+						<div class="row">
+							<div class="col-md-9 ">
+								<div id="messageContent" class="chat-discussion"></div>
+							</div>
+							<div class="col-md-3">
+								<div class="tabs-container">
+									<ul class="nav nav-tabs chat-statistic">
+										<li class="active">
+											<a data-toggle="tab" href="#talkRecord">
+												<i class="fa fa-wechat"></i>
+												聊天
+											</a>
+										</li>
+										<li class="">
+											<a data-toggle="tab" href="#addressList">
+												<i class="fa fa-group"></i>
+												通讯录
+											</a>
+										</li>
+									</ul>
+									<div class="chat-users tab-content">
+										<div class="tab-pane active" id="talkRecord"></div>
+										<div class="tab-pane" id="addressList">
+											<div class="users-list" id="div_userlist"></div>
 										</div>
 									</div>
 								</div>
@@ -46,13 +45,19 @@
 			</div>
 		</div>
 	</div>
-</div>
-<div class="footer">
-	<div class="col-lg-12">
-		<div class="chat-message-form">
-			<div class="form-group">
-				<input id="question" type="text" class="form-control message-input" onkeypress="if(event.keyCode==13){sendMsg()}"> <input id="personAccountId" type="hidden">
+	<div class="footer">
+		<div class="col-lg-12">
+			<div class="chat-message-form">
+				<div class="form-group">
+					<input id="question" type="text" class="form-control message-input" onkeypress="if(event.keyCode==13){sendMsg()}">
+					<input id="personAccountId" type="hidden">
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	<div id="div_addresslisttemp"></div>
+	<div id="div_taskrecordtemp"></div>
+
+	<script src="/chat/js/chat.js"></script>
+</body>
+</html>

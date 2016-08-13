@@ -1,5 +1,9 @@
 package com.a.eye.bot.user.service.service;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,8 +12,7 @@ import org.springframework.util.StringUtils;
 import com.a.eye.bot.common.consts.Constants;
 import com.a.eye.bot.user.service.dao.UserFriendsMapper;
 import com.a.eye.bot.user.service.entity.UserFriends;
-import com.a.eye.bot.user.share.dubbo.provider.IUserServiceProvider;
-import com.alibaba.dubbo.config.annotation.Reference;
+import com.a.eye.bot.user.share.entity.UserInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -23,23 +26,43 @@ import com.google.gson.JsonArray;
 @Transactional
 public class UserFriendsService {
 
+	private static Logger logger = LogManager.getLogger(UserFriendsService.class.getName());
+
 	private Gson gson = new Gson();
 
 	@Autowired
 	private UserFriendsMapper userFriendsMapper;
 
-	@Reference
-	private IUserServiceProvider userServiceProvider;
+	@Autowired
+	private UserService userService;
 
+	/**
+	 * @Title: getUserFriends
+	 * @author: pengysh
+	 * @date 2016年8月13日 下午10:07:40
+	 * @Description:用户好友查询
+	 * @param userId
+	 * @return
+	 */
 	public String getUserFriends(Long userId) {
+		logger.debug("用户好友查询：" + userId);
 		UserFriends userFriends = userFriendsMapper.selectByPrimaryKey(userId);
 		String friends = userFriends.getFriends();
 		if (StringUtils.isEmpty(friends)) {
 			return Constants.EmptyString;
 		} else {
 			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
-			String userFriendsJsonStr = userServiceProvider.getBatchUserData(friendsJson.toString());
-			return userFriendsJsonStr;
+
+			Long[] userIds = new Long[friendsJson.size()];
+			for (int i = 0; i < friendsJson.size(); i++) {
+				userIds[i] = friendsJson.get(i).getAsLong();
+			}
+
+			List<UserInfo> userInfoList = userService.getBatchUserData(userIds);
+			String userFriendsJson = gson.toJson(userInfoList);
+			
+			logger.debug("用户好友查询结果：" + userFriendsJson);
+			return userFriendsJson;
 		}
 	}
 }

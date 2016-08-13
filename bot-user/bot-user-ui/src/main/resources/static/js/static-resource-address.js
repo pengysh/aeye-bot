@@ -1,1 +1,0 @@
-window.resource_static_address = "http://localhost:8000";

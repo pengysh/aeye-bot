@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会议预定系统</title>
+</head>
+<body>
+	<script src="/chat/js/addresslist.js"></script>
+	<!-- 定义JsRender模版 -->
+	<script id="addressListTemp" type="text/x-jsrender">
+	<div class="chat-user">
+		<span class="pull-right label label-primary">Online</span>
+		<img class="chat-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
+		<div class="chat-user-name">
+			<a href="javascript:addressUserClick({{:id}});">{{:name}}</a>
+		</div>
+	</div>
+	</script>
+</body>
+</html>

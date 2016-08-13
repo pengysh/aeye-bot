@@ -8,6 +8,8 @@
 	<dubbo:application name="bot-user-ui" />
 	<!-- 使用zookeeper注册中心暴露服务地址 -->
 	<dubbo:registry address="zookeeper://localhost:2181" />
-	
+
+	<dubbo:consumer check="false" />
+
 	<dubbo:annotation package="com.a.eye.bot.user.ui" />
 </beans>

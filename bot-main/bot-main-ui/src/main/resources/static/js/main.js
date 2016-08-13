@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#main_middle").load("/todo/todo.html");
+	$("#main_middle").load("/chat/chat.html");
 });
 
 function gotoMenu(menuPath){
