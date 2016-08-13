@@ -7,7 +7,7 @@ public class Depart {
 
     private String name;
 
-    private String describe;
+    private String introduction;
 
     private String users;
 
@@ -37,12 +37,12 @@ public class Depart {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
     }
 
     public String getUsers() {

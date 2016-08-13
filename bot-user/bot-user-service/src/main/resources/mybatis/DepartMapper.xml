@@ -5,12 +5,12 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="company_id" property="companyId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="users" property="users" jdbcType="VARCHAR" />
     <result column="departs" property="departs" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, company_id, name, describe, users, departs
+    id, company_id, name, introduction, users, departs
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -26,9 +26,9 @@
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into depart (company_id, name, describe, 
+    insert into depart (company_id, name, introduction, 
       users, departs)
-    values (#{companyId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+    values (#{companyId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
       #{users,jdbcType=VARCHAR}, #{departs,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.a.eye.bot.user.service.entity.Depart" >
@@ -43,8 +43,8 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="describe != null" >
-        describe,
+      <if test="introduction != null" >
+        introduction,
       </if>
       <if test="users != null" >
         users,
@@ -60,8 +60,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        #{describe,jdbcType=VARCHAR},
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="users != null" >
         #{users,jdbcType=VARCHAR},
@@ -80,8 +80,8 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="users != null" >
         users = #{users,jdbcType=VARCHAR},
@@ -96,7 +96,7 @@
     update depart
     set company_id = #{companyId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
       users = #{users,jdbcType=VARCHAR},
       departs = #{departs,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

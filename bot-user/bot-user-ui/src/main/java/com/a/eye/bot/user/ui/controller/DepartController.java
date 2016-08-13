@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @Controller
-@RequestMapping(value = "/user/depart", produces = { "application/json;charset=UTF-8" })
+@RequestMapping(value = "/user/depart", produces = { "application/x-www-form-urlencoded" })
 @Api(value = "/user/depart", description = "部门服务")
 public class DepartController extends ControllerBase {
 
@@ -34,10 +34,11 @@ public class DepartController extends ControllerBase {
 	@RequestMapping(value = "getUserInDept", method = RequestMethod.POST)
 	@ApiOperation(notes = "getUserInDept", httpMethod = "POST", value = "查找部门中的员工")
 	@ResponseBody
-	public void getUserInDept(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, @ModelAttribute Long deaprtId,
+	public void getUserInDept(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, @ModelAttribute("deaprtId") String deaprtId,
 			HttpServletResponse response) throws IOException {
-		logger.debug("查找部门中的员工：" + userId);
-		String userInDept = departServiceProvider.getUserInDept(deaprtId, Long.valueOf(userId));
+		logger.debug("查找部门中的员工：" + userId + "\t" + deaprtId);
+		String userInDept = departServiceProvider.getUserInDept(Long.valueOf(deaprtId), Long.valueOf(userId));
+		logger.debug("部门中的员工：" + userInDept);
 		reply(userInDept, response);
 	}
 }

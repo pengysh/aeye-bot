@@ -5,9 +5,9 @@ public class Company {
 
     private String name;
 
-    private String log;
+    private String logo;
 
-    private String describe;
+    private String introduction;
 
     private String depts;
 
@@ -29,20 +29,20 @@ public class Company {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getLog() {
-        return log;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setLog(String log) {
-        this.log = log == null ? null : log.trim();
+    public void setLogo(String logo) {
+        this.logo = logo == null ? null : logo.trim();
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
     }
 
     public String getDepts() {

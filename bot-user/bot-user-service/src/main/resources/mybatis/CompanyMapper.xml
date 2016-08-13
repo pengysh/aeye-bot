@@ -4,13 +4,13 @@
   <resultMap id="BaseResultMap" type="com.a.eye.bot.user.service.entity.Company" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="log" property="log" jdbcType="VARCHAR" />
-    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="depts" property="depts" jdbcType="VARCHAR" />
     <result column="companys" property="companys" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, log, describe, depts, companys
+    id, name, logo, introduction, depts, companys
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -26,9 +26,9 @@
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into company (name, log, describe, 
+    insert into company (name, logo, introduction, 
       depts, companys)
-    values (#{name,jdbcType=VARCHAR}, #{log,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
+    values (#{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
       #{depts,jdbcType=VARCHAR}, #{companys,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.a.eye.bot.user.service.entity.Company" >
@@ -40,11 +40,11 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="log != null" >
-        log,
+      <if test="logo != null" >
+        logo,
       </if>
-      <if test="describe != null" >
-        describe,
+      <if test="introduction != null" >
+        introduction,
       </if>
       <if test="depts != null" >
         depts,
@@ -57,11 +57,11 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="log != null" >
-        #{log,jdbcType=VARCHAR},
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        #{describe,jdbcType=VARCHAR},
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="depts != null" >
         #{depts,jdbcType=VARCHAR},
@@ -77,11 +77,11 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="log != null" >
-        log = #{log,jdbcType=VARCHAR},
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
       </if>
-      <if test="describe != null" >
-        describe = #{describe,jdbcType=VARCHAR},
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
       </if>
       <if test="depts != null" >
         depts = #{depts,jdbcType=VARCHAR},
@@ -95,8 +95,8 @@
   <update id="updateByPrimaryKey" parameterType="com.a.eye.bot.user.service.entity.Company" >
     update company
     set name = #{name,jdbcType=VARCHAR},
-      log = #{log,jdbcType=VARCHAR},
-      describe = #{describe,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
       depts = #{depts,jdbcType=VARCHAR},
       companys = #{companys,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

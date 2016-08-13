@@ -6,14 +6,23 @@
 <title>会议预定系统</title>
 </head>
 <body>
-	<script src="/chat/js/addresslist.js"></script>
+	<script src="/friend/staff.js"></script>
 	<!-- 定义JsRender模版 -->
-	<script id="addressListTemp" type="text/x-jsrender">
+	<script id="staffListTemp" type="text/x-jsrender">
 	<div class="chat-user">
-		<span class="pull-right label label-primary">Online</span>
+		{{if isFriend==true}}
+			<span class="pull-right label label-success">
+				<a href="javascript:removeFriend({{:id}});">删除好友</a>
+			</span>
+		{{/if}}
+		{{if isFriend==false}}
+			<span class="pull-right label label-primary">
+				<a href="javascript:addFriend({{:id}});">加为好友</a>
+			</span>
+		{{/if}}
 		<img class="chat-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
 		<div class="chat-user-name">
-			<a href="javascript:addressUserClick({{:id}});">{{:name}}</a>
+			{{:name}}
 		</div>
 	</div>
 	</script>

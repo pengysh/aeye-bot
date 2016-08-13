@@ -65,7 +65,9 @@ public class DepartService {
 			if (userIdMap.containsKey(departUserInfo.getId())) {
 				departUserInfo.setFriend(true);
 			}
-			departUserInfoList.add(departUserInfo);
+			if (userId != departUserInfo.getId()) {
+				departUserInfoList.add(departUserInfo);
+			}
 		}
 
 		return departUserInfoList;

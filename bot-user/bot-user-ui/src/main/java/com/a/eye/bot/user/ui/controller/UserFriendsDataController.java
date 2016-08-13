@@ -35,7 +35,7 @@ public class UserFriendsDataController extends ControllerBase {
 	@RequestMapping(value = "addFriend", method = RequestMethod.POST)
 	@ApiOperation(notes = "addFriend", httpMethod = "POST", value = "添加好友")
 	@ResponseBody
-	public void addFriend(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, @ModelAttribute String friendsUserId,
+	public void addFriend(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, @ModelAttribute("friendsUserId") String friendsUserId,
 			HttpServletResponse response) throws IOException {
 		logger.debug("addFriend" + "\t" + userId + "\t" + friendsUserId);
 		userFriendsDataServiceProvider.addFriend(Long.valueOf(userId), Long.valueOf(friendsUserId));
@@ -45,7 +45,7 @@ public class UserFriendsDataController extends ControllerBase {
 	@RequestMapping(value = "removeFriend", method = RequestMethod.POST)
 	@ApiOperation(notes = "removeFriend", httpMethod = "POST", value = "移除好友")
 	@ResponseBody
-	public void removeFriend(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, @ModelAttribute String friendsUserId,
+	public void removeFriend(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, @ModelAttribute("friendsUserId") String friendsUserId,
 			HttpServletResponse response) throws IOException {
 		logger.debug("removeFriend" + "\t" + userId + "\t" + friendsUserId);
 		userFriendsDataServiceProvider.removeFriend(Long.valueOf(userId), Long.valueOf(friendsUserId));

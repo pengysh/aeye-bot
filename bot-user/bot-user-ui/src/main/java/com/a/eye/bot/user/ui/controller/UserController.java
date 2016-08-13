@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,6 +50,15 @@ public class UserController extends ControllerBase {
 			CookieUtil.setCookie(response, String.valueOf(userLoginEntity.getUserId()), userLoginEntity.getUserName(), String.valueOf(userLoginEntity.getCompanyId()));
 			reply("Success", response);
 		}
+	}
+
+	@RequestMapping(value = "userLogout", method = RequestMethod.POST)
+	@ApiOperation(notes = "userLogout", httpMethod = "POST", value = "用户退出")
+	@ResponseBody
+	public void userLogout(Model model, @CookieValue("userId") String userId, HttpServletResponse response) throws IOException {
+		logger.debug("用户退出：" + userId);
+		CookieUtil.removeCookie(response, userId);
+		reply("Success", response);
 	}
 
 	@RequestMapping(value = "emailCheck", method = RequestMethod.POST)

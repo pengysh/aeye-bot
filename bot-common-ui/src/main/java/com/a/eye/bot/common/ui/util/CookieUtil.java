@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 public class CookieUtil {
 
 	/**
-	 * 
 	 * @Title: setCookie
 	 * @author: pengysh
 	 * @date 2016年8月8日 下午9:55:38
@@ -37,6 +36,31 @@ public class CookieUtil {
 
 		Cookie companyIdCookie = new Cookie("companyId", companyId);
 		companyIdCookie.setMaxAge(-1);
+		companyIdCookie.setPath("/");
+		response.addCookie(companyIdCookie);
+	}
+
+	/**
+	 * @Title: removeCookie
+	 * @author: pengysh
+	 * @date 2016年8月14日 上午6:02:04
+	 * @Description:退出时清除Cookie信息
+	 * @param response
+	 * @param userId
+	 */
+	public static void removeCookie(HttpServletResponse response, String userId) {
+		Cookie userIdCookie = new Cookie("userId", null);
+		userIdCookie.setMaxAge(0);
+		userIdCookie.setPath("/");
+		response.addCookie(userIdCookie);
+
+		Cookie userNameCookie = new Cookie("userName", null);
+		userNameCookie.setMaxAge(0);
+		userNameCookie.setPath("/");
+		response.addCookie(userNameCookie);
+
+		Cookie companyIdCookie = new Cookie("companyId", null);
+		companyIdCookie.setMaxAge(0);
 		companyIdCookie.setPath("/");
 		response.addCookie(companyIdCookie);
 	}

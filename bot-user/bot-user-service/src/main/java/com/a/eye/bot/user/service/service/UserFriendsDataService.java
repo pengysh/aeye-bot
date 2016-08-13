@@ -107,7 +107,7 @@ public class UserFriendsDataService {
 		if (!StringUtils.isEmpty(friends)) {
 			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
 			for (int i = 0; i < friendsJson.size(); i++) {
-				if (userId == friendsJson.get(i).getAsLong()) {
+				if (friendsUserId == friendsJson.get(i).getAsLong()) {
 					friendsJson.remove(i);
 				}
 			}

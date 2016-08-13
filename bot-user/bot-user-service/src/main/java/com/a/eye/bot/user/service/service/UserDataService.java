@@ -32,6 +32,9 @@ public class UserDataService {
 	private UserMapper userMapper;
 
 	@Autowired
+	private DepartDataService departDataService;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -62,7 +65,7 @@ public class UserDataService {
 			user.setName(name);
 			user.setEmail(email);
 			user.setState(Constants.State_Active);
-			user.setHeadImage("static/image/1.png");
+			user.setHeadImage("1.png");
 			user.setCompanyId(1l);
 			userMapper.insert(user);
 			logger.debug(user.getId());
@@ -72,6 +75,9 @@ public class UserDataService {
 
 			// 初始化好友数据
 			userFriendsDataService.addUserFriends(user.getId());
+
+			// 暂时写死部门
+			departDataService.addUserInDept(5l, user.getId());
 
 			// 插入缓存
 			UserInfo userInfo = UserInfoParseUtil.parse(user);
