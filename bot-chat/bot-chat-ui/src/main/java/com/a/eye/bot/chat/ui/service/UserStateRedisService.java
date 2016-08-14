@@ -1,6 +1,7 @@
 package com.a.eye.bot.chat.ui.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.a.eye.bot.chat.share.redis.UserStateJedisRepository;
 
@@ -10,6 +11,7 @@ import com.a.eye.bot.chat.share.redis.UserStateJedisRepository;
  * @date 2016年8月13日 下午1:30:19
  * @Description:用户状态服务（此服务因为使用到Redis服务，所以写在UI层）
  */
+@Service
 public class UserStateRedisService {
 
 	private static final String Online_State = "online";

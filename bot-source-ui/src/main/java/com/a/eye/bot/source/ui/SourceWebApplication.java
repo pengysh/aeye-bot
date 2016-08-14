@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 @EnableWebMvc
 @EnableAutoConfiguration
-@ComponentScan("com.a.eye.bot.common.ui.config")
+@ComponentScan("com.a.eye.bot.common.ui.config,com.a.eye.bot.common.ui.web")
 public class SourceWebApplication extends SpringBootServletInitializer {
 	private static Logger logger = LogManager.getLogger(SourceWebApplication.class.getName());
 

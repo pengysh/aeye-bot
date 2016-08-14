@@ -29,10 +29,10 @@ public class CookieUtil {
 		userIdCookie.setPath("/");
 		response.addCookie(userIdCookie);
 
-		Cookie userNameCookie = new Cookie("userName", userName);
-		userNameCookie.setMaxAge(-1);
-		userNameCookie.setPath("/");
-		response.addCookie(userNameCookie);
+//		Cookie userNameCookie = new Cookie("userName", userName);
+//		userNameCookie.setMaxAge(-1);
+//		userNameCookie.setPath("/");
+//		response.addCookie(userNameCookie);
 
 		Cookie companyIdCookie = new Cookie("companyId", companyId);
 		companyIdCookie.setMaxAge(-1);

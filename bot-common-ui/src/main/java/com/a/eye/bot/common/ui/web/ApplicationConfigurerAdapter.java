@@ -1,4 +1,4 @@
-package com.a.eye.bot.common.ui.config;
+package com.a.eye.bot.common.ui.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

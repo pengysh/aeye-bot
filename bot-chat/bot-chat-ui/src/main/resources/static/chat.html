@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>会议预定系统</title>
 </head>
-<body>
+<body class="top-navigation">
 	<div class="wrapper wrapper-content animated fadeInRight">
 		<div class="row">
 			<div class="col-lg-12">
@@ -49,7 +49,7 @@
 		<div class="col-lg-12">
 			<div class="chat-message-form">
 				<div class="form-group">
-					<input id="question" type="text" class="form-control message-input" onkeypress="if(event.keyCode==13){sendMsg()}">
+					<input id="input_message" type="text" class="form-control message-input" onkeypress="if(event.keyCode==13){sendMsg()}">
 					<input id="personAccountId" type="hidden">
 				</div>
 			</div>
@@ -57,6 +57,7 @@
 	</div>
 	<div id="div_addresslisttemp"></div>
 	<div id="div_taskrecordtemp"></div>
+	<div id="div_messagetemp"></div>
 
 	<script src="/chat/js/chat.js"></script>
 </body>

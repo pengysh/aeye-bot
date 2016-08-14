@@ -1,12 +1,10 @@
 package com.a.eye.bot.chat.share.redis;
 
-import java.io.Serializable;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public class UserStateJedisRepository {
 
 	@Autowired
-	protected RedisTemplate<Serializable, Serializable> redisTemplate;
+	protected StringRedisTemplate stringRedisTemplate;
 
 	/**
 	 * @Title: modifyUserState
@@ -30,11 +28,11 @@ public class UserStateJedisRepository {
 	 * @param state
 	 */
 	public void modifyUserState(final Long userId, final String state) {
-		redisTemplate.execute(new RedisCallback<Object>() {
+		stringRedisTemplate.execute(new RedisCallback<Object>() {
 
 			@Override
 			public Object doInRedis(RedisConnection connection) throws DataAccessException {
-				connection.set(redisTemplate.getStringSerializer().serialize("user.state.id." + userId), redisTemplate.getStringSerializer().serialize(state));
+				connection.set(stringRedisTemplate.getStringSerializer().serialize("user.state.id." + userId), stringRedisTemplate.getStringSerializer().serialize(state));
 				return null;
 			}
 		});
@@ -49,13 +47,13 @@ public class UserStateJedisRepository {
 	 * @return
 	 */
 	public String selectUserState(final long userId) {
-		return redisTemplate.execute(new RedisCallback<String>() {
+		return stringRedisTemplate.execute(new RedisCallback<String>() {
 			@Override
 			public String doInRedis(RedisConnection connection) throws DataAccessException {
-				byte[] key = redisTemplate.getStringSerializer().serialize("user.state.ui." + userId);
+				byte[] key = stringRedisTemplate.getStringSerializer().serialize("user.state.ui." + userId);
 				if (connection.exists(key)) {
 					byte[] value = connection.get(key);
-					return redisTemplate.getStringSerializer().deserialize(value);
+					return stringRedisTemplate.getStringSerializer().deserialize(value);
 				}
 				return null;
 			}
