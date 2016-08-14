@@ -28,17 +28,16 @@ function initWebSocket() {
 	};
 }
 function sendMsg() {
-	var input = $("#input_message").value;
+	var input = $("#input_message").val();
 	sendMessage(input, "person");
-	element.value = "";
+	$("#input_message").val("");
 }
 
 function sendMessage(meesage, source) {
 	console.log("source:", source);
 	var data = {};
-	data.cmd = "SendMessageCmd";
+	data.cmd = "personTalk";
 	data.message = meesage;
-	data.myAccountId = myAccountId;
 	data.personAccountId = $("#personAccountId").val();
 	data.source = source;
 

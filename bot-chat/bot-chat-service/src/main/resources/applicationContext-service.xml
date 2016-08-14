@@ -23,9 +23,12 @@
 		<property name="locations">
 			<list>
 				<value>classpath:properties/dbconfig.properties</value>
+				<value>classpath:properties/mongo.properties</value>
 			</list>
 		</property>
 	</bean>
+	<import resource="applicationContext-mongo.xml" />
 	<import resource="applicationContext-datasource.xml" />
 	<import resource="applicationContext-tx.xml"/>
+	<import resource="applicationContext-message.xml"/>
 </beans>

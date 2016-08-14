@@ -68,8 +68,14 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 
 		if (message.getPayloadLength() > 5) {
 			Cmd cmd = gson.fromJson(messageStr, Cmd.class);
-			CmdExecuter executer = SpringContextUtil.getBean(cmd.getCmd());
-			executer.exe(cmd.getUserId(), cmd.getContent());
+			logger.debug("客户端发送的命令：" + cmd.getCmd());
+			try {
+				CmdExecuter executer = SpringContextUtil.getBean(cmd.getCmd());
+				logger.debug("命令执行实例：" + executer.getClass());
+				executer.exe(cmd.getUserId(), cmd.getContent());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

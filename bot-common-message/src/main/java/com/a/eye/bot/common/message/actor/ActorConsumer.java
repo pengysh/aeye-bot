@@ -29,7 +29,7 @@ public class ActorConsumer extends Thread {
 		}
 
 		consumer = new KafkaConsumer<>(properties);
-		consumer.subscribe(Arrays.asList("meeting"));
+		consumer.subscribe(Arrays.asList("aeye"));
 	}
 
 	@Override
