@@ -3,6 +3,7 @@ package com.a.eye.bot.chat.ui.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.a.eye.bot.chat.share.conts.UserStateConstants;
 import com.a.eye.bot.chat.share.redis.UserStateJedisRepository;
 
 /**
@@ -13,10 +14,6 @@ import com.a.eye.bot.chat.share.redis.UserStateJedisRepository;
  */
 @Service
 public class UserStateRedisService {
-
-	private static final String Online_State = "online";
-
-	private static final String Offline_State = "offline";
 
 	@Autowired
 	private UserStateJedisRepository userStateJedisRepository;
@@ -29,7 +26,7 @@ public class UserStateRedisService {
 	 * @param userId
 	 */
 	public void userOnline(final Long userId) {
-		userStateJedisRepository.modifyUserState(userId, Online_State);
+		userStateJedisRepository.modifyUserState(userId, UserStateConstants.Online_State);
 	}
 
 	/**
@@ -40,6 +37,6 @@ public class UserStateRedisService {
 	 * @param userId
 	 */
 	public void userOffline(final Long userId) {
-		userStateJedisRepository.modifyUserState(userId, Offline_State);
+		userStateJedisRepository.modifyUserState(userId, UserStateConstants.Offline_State);
 	}
 }

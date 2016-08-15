@@ -27,6 +27,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String name) throws BeansException {
+		System.out.println(name);
 		return (T) applicationContext.getBean(name);
 	}
 }

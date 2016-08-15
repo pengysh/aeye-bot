@@ -10,7 +10,7 @@ import com.a.eye.bot.user.cache.entity.User;
 
 public interface UserMapper {
 
-	@Select("select * from user where user_id limit #{start}, #{pageSize}")
+	@Select("select * from user limit #{start}, #{pageSize}")
 	@ResultMap("BaseResultMap")
 	List<User> selectOnPage(@Param("start") Integer start, @Param("pageSize") Integer pageSize);
 }

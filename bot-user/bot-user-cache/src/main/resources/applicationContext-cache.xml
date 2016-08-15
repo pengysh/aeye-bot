@@ -16,7 +16,7 @@
 		http://mybatis.org/schema/mybatis-spring
 		http://mybatis.org/schema/mybatis-spring.xsd">
 
-	<context:component-scan base-package="com.a.eye.bot.user.cache" />
+	<context:component-scan base-package="com.a.eye.bot.user.cache,com.a.eye.bot.user.share.redis" />
 
 	<bean id="servicePropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="order" value="1" />
@@ -24,9 +24,11 @@
 		<property name="locations">
 			<list>
 				<value>classpath:properties/redis.properties</value>
+				<value>classpath:properties/dbconfig.properties</value>
 			</list>
 		</property>
 	</bean>
+	<import resource="applicationContext-redis.xml" />
 	<import resource="applicationContext-datasource.xml" />
 	<import resource="applicationContext-tx.xml" />
 

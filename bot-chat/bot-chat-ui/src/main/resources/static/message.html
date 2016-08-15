@@ -9,12 +9,11 @@
 	<!-- 定义JsRender模版 -->
 	<script id="messageTemp" type="text/x-jsrender">
 	<div class="chat-message left">
-		<img class="message-avatar" src="img/a1.jpg" alt="">
+		<img class="message-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
 		<div class="message">
-			<a class="message-author" href="#"> Michael Smith </a>
-			<span class="message-date"> Mon Jan 26 2015 - 18:39:23 </span>
-			<span class="message-content"> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-				volutpat. </span>
+			<a class="message-author" href="#"> {{:senderName}} </a>
+			<span class="message-date"> {{:sendTimeFormat}} </span>
+			<span class="message-content"> {{:message}} </span>
 		</div>
 	</div>
 	</script>

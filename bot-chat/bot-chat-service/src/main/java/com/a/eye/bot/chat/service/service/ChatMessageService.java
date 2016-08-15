@@ -35,7 +35,7 @@ public class ChatMessageService {
 	 * @param message
 	 * @param sendTime
 	 */
-	public void saveMessage(Long messageId, Long groupId, Long sender, String message, Long sendTime) {
+	public void saveMessage(String messageId, String groupId, Long sender, String message, Long sendTime) {
 		template.insert(new ChatMessage(messageId, groupId, sender, message, sendTime));
 	}
 

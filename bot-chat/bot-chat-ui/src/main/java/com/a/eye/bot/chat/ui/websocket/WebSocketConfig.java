@@ -5,6 +5,7 @@ import org.eclipse.jetty.websocket.api.WebSocketPolicy;
 import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -13,13 +14,15 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 import com.a.eye.bot.common.ui.web.ApplicationConfigurerAdapter;
 
+@EnableWebMvc
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig extends ApplicationConfigurerAdapter implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chatWebSocketHandler(), "/ws/sendmessage").setHandshakeHandler(handshakeHandler()).addInterceptors(new WebSocketHandshakeInterceptor()).setAllowedOrigins("http://www.aeye.com");
+		registry.addHandler(chatWebSocketHandler(), "/ws/sendmessage").setHandshakeHandler(handshakeHandler()).addInterceptors(new WebSocketHandshakeInterceptor())
+				.setAllowedOrigins("http://www.aeye.com");
 	}
 
 	@Bean

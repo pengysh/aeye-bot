@@ -7,14 +7,9 @@ function initWebSocket() {
 	messagews.onmessage = function(event) {
 		var response = eval('(' + event.data + ')');
 
-		if ('ChatMessage' == response.contentId) {
-			var messageList = response.messageList;
-			for (var i = 0; i < messageList.length; i++) {
-				showMessage(messageList[i].fromAccount,
-						messageList[i].fromAccountName,
-						messageList[i].sendTime, messageList[i].message,
-						messageList[i].fromAccountHeadImage);
-			}
+		if ('ChatMessage' == response.Cmd) {
+			console.log("收到消息：" + event.data);
+			showMessage(response);
 		}
 	};
 	messagews.onclose = function(event) {
@@ -29,17 +24,19 @@ function initWebSocket() {
 }
 function sendMsg() {
 	var input = $("#input_message").val();
-	sendMessage(input, "person");
+	sendMessage("PersonTalk", input);
 	$("#input_message").val("");
 }
 
-function sendMessage(meesage, source) {
-	console.log("source:", source);
+function sendMessage(cmd, meesage) {
+	var content = {};
+	content.message = meesage;
+	content.receiver = $("#receiver").val();
+	content.sender = getCookie("userId");
+
 	var data = {};
-	data.cmd = "personTalk";
-	data.message = meesage;
-	data.personAccountId = $("#personAccountId").val();
-	data.source = source;
+	data.cmd = cmd;
+	data.content = content;
 
 	var jsonStr = JSON.stringify(data);
 	console.log("sendMessage:", jsonStr);
@@ -55,9 +52,15 @@ function laddaSendMessage(buttonId, meesage, source) {
 
 	sendMessage(meesage, source);
 
-	setTimeout(function(){
+	setTimeout(function() {
 		ladda.ladda('stop');
-    },12000)
+	}, 12000)
+}
+
+function showMessage(data) {
+	var template = $.templates("#messageTemp");
+	var htmlOutput = template.render(data);
+	$("#div_messageContent").append(htmlOutput);
 }
 
 $(document).ready(function() {
@@ -65,9 +68,9 @@ $(document).ready(function() {
 	$.ajaxSetup({
 		cache : false
 	});
-	
+
 	initWebSocket();
-	
+
 	$("#div_addresslisttemp").load("/chat/addresslist.html");
 	$("#div_messagetemp").load("/chat/message.html");
 

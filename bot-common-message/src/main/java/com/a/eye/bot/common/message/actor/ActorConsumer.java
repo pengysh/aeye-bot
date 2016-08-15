@@ -11,14 +11,16 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.a.eye.bot.common.message.dispatch.MessageDispatcher;
+import com.a.eye.bot.common.message.dispatch.ConsumerDispathcer;
 
 public class ActorConsumer extends Thread {
 	private Logger logger = LogManager.getLogger(this.getClass());
 	private static Properties properties = new Properties();
 	private static String kafkaproperty = "properties/kafka.properties";
 	private final KafkaConsumer<String, String> consumer;
-	private MessageDispatcher messageDispatcher = new MessageDispatcher();
+	private ConsumerDispathcer consumerDispathcer = new ConsumerDispathcer();
+
+	private String topicName;
 
 	public ActorConsumer() {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(kafkaproperty);
@@ -29,22 +31,26 @@ public class ActorConsumer extends Thread {
 		}
 
 		consumer = new KafkaConsumer<>(properties);
-		consumer.subscribe(Arrays.asList("aeye"));
 	}
 
 	@Override
 	public void run() {
+		consumer.subscribe(Arrays.asList(topicName));
 		while (true) {
 			ConsumerRecords<String, String> records = consumer.poll(100);
 			for (ConsumerRecord<String, String> record : records) {
 				logger.debug("offset = " + record.offset() + ", key = " + record.key() + ", value = " + record.value());
 				try {
-					messageDispatcher.dispatch(record.key(), record.value());
+					consumerDispathcer.dispatch(record.key(), record.value());
 				} catch (Exception e) {
 					e.printStackTrace();
 					logger.error(record.value());
 				}
 			}
 		}
+	}
+
+	public void setTopicName(String topicName) {
+		this.topicName = topicName;
 	}
 }

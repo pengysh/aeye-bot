@@ -1,18 +1,21 @@
 package com.a.eye.bot.chat.ui.websocket;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.a.eye.bot.chat.ui.service.UserStateRedisService;
-import com.a.eye.bot.common.cmd.Cmd;
-import com.a.eye.bot.common.cmd.CmdExecuter;
+import com.a.eye.bot.common.message.cmd.Cmd;
+import com.a.eye.bot.common.message.cmd.CmdExecuter;
 import com.a.eye.bot.common.ui.consts.Constants;
 import com.a.eye.bot.common.util.SpringContextUtil;
 import com.google.gson.Gson;
@@ -27,7 +30,7 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 
 	private static Logger logger = LogManager.getLogger(ChatWebSocketHandler.class.getName());
 
-	private static final ArrayList<WebSocketSession> users = new ArrayList<WebSocketSession>();
+	private static final Map<Long, WebSocketSession> users = new HashMap<Long, WebSocketSession>();
 
 	private Gson gson = new Gson();
 
@@ -45,10 +48,10 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		logger.debug("ConnectionEstablished");
-		users.add(session);
-
 		// 更新用户状态为在线
 		Long userId = (Long) session.getAttributes().get(Constants.UserId);
+
+		users.put(userId, session);
 		userStateRedisService.userOnline(userId);
 	}
 
@@ -67,12 +70,12 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 		logger.debug("message PayloadLength：" + message.getPayloadLength() + ",payload: " + messageStr);
 
 		if (message.getPayloadLength() > 5) {
-			Cmd cmd = gson.fromJson(messageStr, Cmd.class);
-			logger.debug("客户端发送的命令：" + cmd.getCmd());
 			try {
-				CmdExecuter executer = SpringContextUtil.getBean(cmd.getCmd());
+				Cmd cmd = gson.fromJson(messageStr, Cmd.class);
+				logger.debug("客户端发送的命令：" + cmd.getProducerCmd());
+				CmdExecuter executer = SpringContextUtil.getBean(cmd.getProducerCmd());
 				logger.debug("命令执行实例：" + executer.getClass());
-				executer.exe(cmd.getUserId(), cmd.getContent());
+				executer.sendMessage(cmd.getContent());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -110,5 +113,26 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 	@Override
 	public boolean supportsPartialMessages() {
 		return false;
+	}
+
+	/**
+	 * @Title: sendMessageToUser
+	 * @author: pengysh
+	 * @date 2016年8月15日 下午1:07:06
+	 * @Description:向用户推送消息
+	 * @param userId
+	 * @param message
+	 */
+	public static void sendMessageToUser(Long userId, TextMessage message) {
+		WebSocketSession session = users.get(userId);
+		if (session != null) {
+			try {
+				if (session.isOpen()) {
+					session.sendMessage(message);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

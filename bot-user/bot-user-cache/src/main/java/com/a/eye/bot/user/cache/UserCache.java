@@ -27,7 +27,7 @@ public class UserCache {
 	public void load() {
 		Integer start = 1;
 		Integer pageNow = 1;
-		Integer pageSize = 2;
+		Integer pageSize = 50;
 
 		while (true) {
 			start = (pageNow - 1) * pageSize;

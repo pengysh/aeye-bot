@@ -50,7 +50,7 @@ public class UserStateJedisRepository {
 		return stringRedisTemplate.execute(new RedisCallback<String>() {
 			@Override
 			public String doInRedis(RedisConnection connection) throws DataAccessException {
-				byte[] key = stringRedisTemplate.getStringSerializer().serialize("user.state.ui." + userId);
+				byte[] key = stringRedisTemplate.getStringSerializer().serialize("user.state.id." + userId);
 				if (connection.exists(key)) {
 					byte[] value = connection.get(key);
 					return stringRedisTemplate.getStringSerializer().deserialize(value);

@@ -55,7 +55,7 @@ public class UserInfoJedisRepository {
 		return redisTemplate.execute(new RedisCallback<UserInfo>() {
 			@Override
 			public UserInfo doInRedis(RedisConnection connection) throws DataAccessException {
-				byte[] key = redisTemplate.getStringSerializer().serialize("user.info.ui." + userId);
+				byte[] key = redisTemplate.getStringSerializer().serialize("user.info.id." + userId);
 				if (connection.exists(key)) {
 					byte[] value = connection.get(key);
 					String userInfoJson = redisTemplate.getStringSerializer().deserialize(value);
