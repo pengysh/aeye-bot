@@ -47,7 +47,7 @@ public class UserController extends ControllerBase {
 			reply("用户名或者密码错误", response);
 		} else {
 			logger.debug(userLoginEntity.getUserId() + "\t" + userLoginEntity.getUserName() + "\t" + userLoginEntity.getCompanyId());
-			CookieUtil.setCookie(response, String.valueOf(userLoginEntity.getUserId()), userLoginEntity.getUserName(), String.valueOf(userLoginEntity.getCompanyId()));
+			CookieUtil.setCookie(response, String.valueOf(userLoginEntity.getUserId()), String.valueOf(userLoginEntity.getCompanyId()));
 			reply("Success", response);
 		}
 	}

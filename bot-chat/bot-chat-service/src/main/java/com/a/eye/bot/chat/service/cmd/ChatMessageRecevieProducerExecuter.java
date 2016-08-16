@@ -1,4 +1,4 @@
-package com.a.eye.bot.chat.ui.websocket.cmd;
+package com.a.eye.bot.chat.service.cmd;
 
 import java.util.Date;
 
@@ -12,14 +12,14 @@ import com.a.eye.bot.common.message.cmd.CmdProducerExecuter;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-@Component("PersonTalkProducer")
-public class PersonTalkProducerExecuter extends CmdProducerExecuter {
+@Component("ChatMessageRecevieProducer")
+public class ChatMessageRecevieProducerExecuter extends CmdProducerExecuter {
 
-	private Logger logger = LogManager.getLogger(PersonTalkProducerExecuter.class.getName());
+	private Logger logger = LogManager.getLogger(ChatMessageRecevieProducerExecuter.class.getName());
 
 	private Gson gson = new Gson();
-
-	@Value("${ui_service_topicName}")
+	
+	@Value("${service_ui_topicName}")
 	private String topicName;
 
 	private static final String Message_Param = "message";
@@ -34,6 +34,6 @@ public class PersonTalkProducerExecuter extends CmdProducerExecuter {
 		content.setMessage(contentJson.get(Message_Param).getAsString());
 		content.setSendTime(new Date().getTime());
 
-		this.producer(gson.toJson(content), "PersonTalk", topicName);
+		this.producer(gson.toJson(content), "ChatMessageRecevie", topicName);
 	}
 }

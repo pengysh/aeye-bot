@@ -35,7 +35,7 @@ public class ChatMessageService {
 	 * @param message
 	 * @param sendTime
 	 */
-	public void saveMessage(String messageId, String groupId, Long sender, String message, Long sendTime) {
+	public void saveMessage(Long messageId, String groupId, Long sender, String message, Long sendTime) {
 		template.insert(new ChatMessage(messageId, groupId, sender, message, sendTime));
 	}
 
@@ -47,13 +47,13 @@ public class ChatMessageService {
 	 * @param userId
 	 * @return
 	 */
-	public List<ChatMessage> getMessage(Long userId) {
-		Query query = new Query(Criteria.where("userId").is(userId));
+	public List<ChatMessage> getMessage(String groupId, Long fromSendTime) {
+		Query query = new Query(new Criteria().andOperator(Criteria.where("groupId").is(groupId), Criteria.where("sendTime").lt(fromSendTime)));
 
-		Integer pageSize = 50;
+		Integer pageSize = 20;
 		Integer pageNow = 1;
 		int offset = (pageNow - 1) * pageSize;
-		query.limit(50);
+		query.limit(pageSize);
 		query.skip(offset);
 		query.with(new Sort(Direction.ASC, "sendTime"));
 		List<ChatMessage> messageList = template.find(query, ChatMessage.class);

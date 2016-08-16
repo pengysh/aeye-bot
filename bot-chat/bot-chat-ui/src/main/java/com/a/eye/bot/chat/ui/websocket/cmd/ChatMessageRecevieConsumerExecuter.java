@@ -14,15 +14,15 @@ import com.a.eye.bot.user.share.redis.UserInfoJedisRepository;
 import com.google.gson.JsonObject;
 
 /**
- * @Title: TalkRecevieConsumerExecuter.java
+ * @Title: ChatMessageRecevieConsumerExecuter.java
  * @author: pengysh
  * @date 2016年8月15日 下午1:20:40
  * @Description:聊天消息转发到用户客户端
  */
-@Component("TalkRecevieConsumer")
-public class TalkRecevieConsumerExecuter extends CmdConsumerExecuter {
+@Component("ChatMessageRecevieConsumer")
+public class ChatMessageRecevieConsumerExecuter extends CmdConsumerExecuter {
 
-	private Logger logger = LogManager.getLogger(TalkRecevieConsumerExecuter.class.getName());
+	private Logger logger = LogManager.getLogger(ChatMessageRecevieConsumerExecuter.class.getName());
 
 	private static final String Receiver_Param = "receiver";
 	private static final String Sender_Param = "sender";
@@ -31,7 +31,7 @@ public class TalkRecevieConsumerExecuter extends CmdConsumerExecuter {
 	@Autowired
 	private UserInfoJedisRepository userInfoJedisRepository;
 
-	public void receiveMessage(String messageId, JsonObject contentJson) {
+	public void receiveMessage(Long messageId, JsonObject contentJson) {
 		logger.debug("收到消息：" + messageId + "\t" + contentJson.toString());
 		Long sender = contentJson.get(Sender_Param).getAsLong();
 		Long sendTime = contentJson.get(SenderTime_Param).getAsLong();

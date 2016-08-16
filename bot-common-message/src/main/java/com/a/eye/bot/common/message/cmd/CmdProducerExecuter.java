@@ -15,7 +15,7 @@ public abstract class CmdProducerExecuter implements CmdExecuter {
 
 	private Gson gson = new Gson();
 
-	protected void producer(String contentJson, String consumerCmd, String topicName) {
+	protected Long producer(String contentJson, String consumerCmd, String topicName) {
 		logger.debug(contentJson);
 		JsonObject contentJsonObj = gson.fromJson(contentJson, JsonObject.class);
 
@@ -23,10 +23,14 @@ public abstract class CmdProducerExecuter implements CmdExecuter {
 		cmd.setCmd(consumerCmd);
 		cmd.setContent(contentJsonObj);
 
+		Long messageId = MessageIdGenerate.generateFirstMessageId();
+
 		logger.debug("发送消息topicName：" + topicName);
-		ActorProducer.getProducer().send(new ProducerRecord<String, String>(topicName, MessageIdGenerate.generateFirstMessageId(), gson.toJson(cmd)));
+		ActorProducer.getProducer().send(new ProducerRecord<Long, String>(topicName, messageId, gson.toJson(cmd)));
+
+		return messageId;
 	}
 
-	public void receiveMessage(String messageId, JsonObject contentJson) {
+	public void receiveMessage(Long messageId, JsonObject contentJson) {
 	}
 }

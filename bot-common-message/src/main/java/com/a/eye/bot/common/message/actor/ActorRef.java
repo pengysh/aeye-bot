@@ -37,7 +37,7 @@ public class ActorRef {
 
 		String path = this.path().getPath();
 		String content = "N" + "|" + path + "|" + messageClassName + "|" + messageJsonStr;
-		ActorProducer.getProducer().send(new ProducerRecord<String, String>("meeting", reverseMessageId, content));
+//		ActorProducer.getProducer().send(new ProducerRecord<Long, String>("meeting", reverseMessageId, content));
 	}
 
 	public void reply(String messageId, Object message, ActorRef actorRef) {
@@ -46,7 +46,7 @@ public class ActorRef {
 
 		String path = this.path().getPath();
 		String content = "Y" + "|" + path + "|" + messageClassName + "|" + messageJsonStr;
-		ActorProducer.getProducer().send(new ProducerRecord<String, String>("meeting", messageId, content));
+//		ActorProducer.getProducer().send(new ProducerRecord<Long, String>("meeting", messageId, content));
 	}
 
 	static class NoSender extends ActorRef {

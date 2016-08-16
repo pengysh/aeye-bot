@@ -8,7 +8,11 @@
 <body>
 	<!-- 定义JsRender模版 -->
 	<script id="messageTemp" type="text/x-jsrender">
+	{{if sender==userId}}
+	<div class="chat-message right">
+	{{else}}
 	<div class="chat-message left">
+	{{/if}}
 		<img class="message-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
 		<div class="message">
 			<a class="message-author" href="#"> {{:senderName}} </a>

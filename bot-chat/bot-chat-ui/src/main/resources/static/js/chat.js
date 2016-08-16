@@ -10,7 +10,16 @@ function initWebSocket() {
 		if ('ChatMessage' == response.Cmd) {
 			console.log("收到消息：" + event.data);
 			showMessage(response);
+		} else if ('GetChatRecord' == response.Cmd) {
+			console.log("收到消息：" + event.data);
+			var messageList = response.messageList;
+			for (i in messageList) {
+				var messageContent = messageList[i];
+				messageContent.userId = getCookie("userId");
+				showMessage(messageContent);
+			}
 		}
+
 	};
 	messagews.onclose = function(event) {
 		console.log("messagews:onclose", messagews.readyState);
@@ -24,16 +33,17 @@ function initWebSocket() {
 }
 function sendMsg() {
 	var input = $("#input_message").val();
-	sendMessage("PersonTalk", input);
-	$("#input_message").val("");
-}
 
-function sendMessage(cmd, meesage) {
 	var content = {};
-	content.message = meesage;
+	content.message = input;
 	content.receiver = $("#receiver").val();
 	content.sender = getCookie("userId");
 
+	sendMessage("PersonChat", content);
+	$("#input_message").val("");
+}
+
+function sendMessage(cmd, content) {
 	var data = {};
 	data.cmd = cmd;
 	data.content = content;
@@ -60,7 +70,10 @@ function laddaSendMessage(buttonId, meesage, source) {
 function showMessage(data) {
 	var template = $.templates("#messageTemp");
 	var htmlOutput = template.render(data);
-	$("#div_messageContent").append(htmlOutput);
+	var messageContentDiv = $("#div_messageContent");
+	messageContentDiv.append(htmlOutput);
+	
+	messageContentDiv[0].scrollTop = messageContentDiv[0].scrollHeight;
 }
 
 $(document).ready(function() {

@@ -14,7 +14,7 @@ public class ConsumerDispathcer {
 
 	private Gson gson = new Gson();
 
-	public void dispatch(String messageId, String contentStr) {
+	public void dispatch(Long messageId, String contentStr) {
 		logger.debug("接收到的消息：" + messageId + "\t" + contentStr);
 		Cmd cmd = gson.fromJson(contentStr, Cmd.class);
 		CmdExecuter executer = SpringContextUtil.getBean(cmd.getConsumerCmd());

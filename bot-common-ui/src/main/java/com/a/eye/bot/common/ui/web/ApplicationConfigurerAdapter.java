@@ -3,11 +3,14 @@ package com.a.eye.bot.common.ui.web;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.a.eye.bot.common.ui.config.UserSecurityInterceptor;
 
 @Configuration
 public class ApplicationConfigurerAdapter extends WebMvcConfigurerAdapter {
@@ -18,9 +21,16 @@ public class ApplicationConfigurerAdapter extends WebMvcConfigurerAdapter {
 	}
 
 	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		super.addInterceptors(registry);
+		registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/**");
+	}
+
+	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		super.addResourceHandlers(registry);
-		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/").addResourceLocations("classpath:/public/").addResourceLocations("classpath:/META-INF/resources/");
+		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/").addResourceLocations("classpath:/public/")
+				.addResourceLocations("classpath:/META-INF/resources/");
 	}
 
 	@Override

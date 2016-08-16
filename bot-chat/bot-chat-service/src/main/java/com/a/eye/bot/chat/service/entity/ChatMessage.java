@@ -2,7 +2,7 @@ package com.a.eye.bot.chat.service.entity;
 
 public class ChatMessage {
 
-	private String messageId;
+	private Long messageId;
 
 	private String groupId;
 
@@ -12,7 +12,7 @@ public class ChatMessage {
 
 	private Long sendTime;
 
-	public ChatMessage(String messageId, String groupId, Long sender, String message, Long sendTime) {
+	public ChatMessage(Long messageId, String groupId, Long sender, String message, Long sendTime) {
 		this.messageId = messageId;
 		this.groupId = groupId;
 		this.sender = sender;
@@ -25,11 +25,11 @@ public class ChatMessage {
 		return "ChatMessage [messageId=" + messageId + ", groupId=" + groupId + ", sender=" + sender + ", message=" + message + ", sendTime=" + sendTime + "]";
 	}
 
-	public String getMessageId() {
+	public Long getMessageId() {
 		return messageId;
 	}
 
-	public void setMessageId(String messageId) {
+	public void setMessageId(Long messageId) {
 		this.messageId = messageId;
 	}
 

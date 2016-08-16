@@ -17,7 +17,7 @@ public class ActorConsumer extends Thread {
 	private Logger logger = LogManager.getLogger(this.getClass());
 	private static Properties properties = new Properties();
 	private static String kafkaproperty = "properties/kafka.properties";
-	private final KafkaConsumer<String, String> consumer;
+	private final KafkaConsumer<Long, String> consumer;
 	private ConsumerDispathcer consumerDispathcer = new ConsumerDispathcer();
 
 	private String topicName;
@@ -36,9 +36,10 @@ public class ActorConsumer extends Thread {
 	@Override
 	public void run() {
 		consumer.subscribe(Arrays.asList(topicName));
+		logger.debug(topicName);
 		while (true) {
-			ConsumerRecords<String, String> records = consumer.poll(100);
-			for (ConsumerRecord<String, String> record : records) {
+			ConsumerRecords<Long, String> records = consumer.poll(100);
+			for (ConsumerRecord<Long, String> record : records) {
 				logger.debug("offset = " + record.offset() + ", key = " + record.key() + ", value = " + record.value());
 				try {
 					consumerDispathcer.dispatch(record.key(), record.value());

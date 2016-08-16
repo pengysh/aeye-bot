@@ -23,16 +23,11 @@ public class CookieUtil {
 	 * @param userName
 	 * @param companyId
 	 */
-	public static void setCookie(HttpServletResponse response, String userId, String userName, String companyId) {
+	public static void setCookie(HttpServletResponse response, String userId, String companyId) {
 		Cookie userIdCookie = new Cookie("userId", userId);
 		userIdCookie.setMaxAge(-1);
 		userIdCookie.setPath("/");
 		response.addCookie(userIdCookie);
-
-//		Cookie userNameCookie = new Cookie("userName", userName);
-//		userNameCookie.setMaxAge(-1);
-//		userNameCookie.setPath("/");
-//		response.addCookie(userNameCookie);
 
 		Cookie companyIdCookie = new Cookie("companyId", companyId);
 		companyIdCookie.setMaxAge(-1);
@@ -53,11 +48,6 @@ public class CookieUtil {
 		userIdCookie.setMaxAge(0);
 		userIdCookie.setPath("/");
 		response.addCookie(userIdCookie);
-
-		Cookie userNameCookie = new Cookie("userName", null);
-		userNameCookie.setMaxAge(0);
-		userNameCookie.setPath("/");
-		response.addCookie(userNameCookie);
 
 		Cookie companyIdCookie = new Cookie("companyId", null);
 		companyIdCookie.setMaxAge(0);
@@ -82,5 +72,25 @@ public class CookieUtil {
 			}
 		}
 		return -1l;
+	}
+
+	/**
+	 * @Title: checkLogin
+	 * @author: pengysh
+	 * @date 2016年8月16日 上午12:58:40
+	 * @Description:判断用户是否登录
+	 * @param request
+	 * @return
+	 */
+	public static boolean checkLogin(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if ("userId".equals(cookie.getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

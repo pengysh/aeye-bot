@@ -50,7 +50,7 @@
 			<div class="chat-message-form">
 				<div class="form-group">
 					<input id="input_message" type="text" class="form-control message-input" onkeypress="if(event.keyCode==13){sendMsg()}">
-					<input id="receiver" type="hidden" value="14">
+					<input id="receiver" type="hidden">
 				</div>
 			</div>
 		</div>
@@ -58,7 +58,9 @@
 	<div id="div_addresslisttemp"></div>
 	<div id="div_taskrecordtemp"></div>
 	<div id="div_messagetemp"></div>
-
+	<script src="http://www.aeye.com/source/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js"></script>
+	<script src="http://www.aeye.com/source/webjars/momentjs/2.9.0/min/moment.min.js"></script>
 	<script src="/chat/js/chat.js"></script>
+	<script src="/chat/js/chatgroupcookie.js"></script>
 </body>
 </html>

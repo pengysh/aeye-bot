@@ -7,23 +7,16 @@ public class MessageIdGenerate {
 
 	private static Logger logger = LogManager.getLogger(MessageIdGenerate.class.getName());
 
-	private static Long messageIdIncrement = new Long(0);
-
-	private static synchronized Long increment() {
-		messageIdIncrement++;
-		return messageIdIncrement;
-	}
+	private static final IdWorker worker = new IdWorker(1, 1);
 
 	public static String generate(String forwardMessageId, String receiverName) {
-		MessageIdGenerate.increment();
-		String messageId = forwardMessageId + "-" + receiverName + String.valueOf(messageIdIncrement);
+		String messageId = forwardMessageId + "-" + receiverName + worker.nextId();
 		logger.debug("生成消息编号：" + messageId);
 		return messageId;
 	}
 
-	public static String generateFirstMessageId() {
-		MessageIdGenerate.increment();
-		String messageId = "Begin_" + String.valueOf(messageIdIncrement);
+	public static Long generateFirstMessageId() {
+		Long messageId = worker.nextId();
 		logger.debug("生成消息编号：" + messageId);
 		return messageId;
 	}

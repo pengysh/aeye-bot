@@ -10,7 +10,7 @@ public class ActorProducer {
 
 	private static String kafkaproperty = "properties/kafka.properties";
 	private static Properties properties = new Properties();
-	private static KafkaProducer<String, String> producer;
+	private static KafkaProducer<Long, String> producer;
 
 	public void start() {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(kafkaproperty);
@@ -19,10 +19,10 @@ public class ActorProducer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		producer = new KafkaProducer<String, String>(properties);
+		producer = new KafkaProducer<Long, String>(properties);
 	}
 
-	public static KafkaProducer<String, String> getProducer() {
+	public static KafkaProducer<Long, String> getProducer() {
 		return producer;
 	}
 }

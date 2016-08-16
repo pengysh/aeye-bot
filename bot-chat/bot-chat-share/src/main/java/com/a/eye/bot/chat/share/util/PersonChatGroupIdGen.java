@@ -1,12 +1,12 @@
-package com.a.eye.bot.chat.service.util;
+package com.a.eye.bot.chat.share.util;
 
 /**
- * @Title: PersonTalkGroupIdGenUtil.java
+ * @Title: PersonChatGroupIdGen.java
  * @author: pengysh
  * @date 2016年8月15日 下午12:04:04
  * @Description:点对点对话时模拟生成GROUPID
  */
-public class PersonTalkGroupIdGenUtil {
+public class PersonChatGroupIdGen {
 
 	/**
 	 * @Title: gen

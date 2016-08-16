@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.a.eye.bot.chat.service.service.ChatMessageService;
-import com.a.eye.bot.chat.service.util.PersonTalkGroupIdGenUtil;
 import com.a.eye.bot.chat.share.content.PersonTalkContent;
-import com.a.eye.bot.chat.share.content.TalkRecevieContent;
 import com.a.eye.bot.chat.share.conts.UserStateConstants;
+import com.a.eye.bot.chat.share.entity.ChatMessageInfo;
 import com.a.eye.bot.chat.share.redis.UserStateJedisRepository;
+import com.a.eye.bot.chat.share.util.PersonChatGroupIdGen;
 import com.a.eye.bot.common.message.cmd.Cmd;
 import com.a.eye.bot.common.message.cmd.CmdConsumerExecuter;
 import com.a.eye.bot.common.message.cmd.CmdExecuter;
@@ -19,15 +19,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 /**
- * @Title: PersonTalkConsumerExecuter.java
+ * @Title: PersonChatConsumerExecuter.java
  * @author: pengysh
  * @date 2016年8月15日 下午12:07:55
  * @Description:单对单聊天的消费服务
  */
-@Component("PersonTalkConsumer")
-public class PersonTalkConsumerExecuter extends CmdConsumerExecuter {
+@Component("PersonChatConsumer")
+public class PersonChatConsumerExecuter extends CmdConsumerExecuter {
 
-	private Logger logger = LogManager.getLogger(PersonTalkConsumerExecuter.class.getName());
+	private Logger logger = LogManager.getLogger(PersonChatConsumerExecuter.class.getName());
 
 	private Gson gson = new Gson();
 
@@ -45,12 +45,12 @@ public class PersonTalkConsumerExecuter extends CmdConsumerExecuter {
 	 * @param messageId
 	 * @param contentJson
 	 */
-	public void receiveMessage(String messageId, JsonObject contentJson) {
+	public void receiveMessage(Long messageId, JsonObject contentJson) {
 		logger.debug("收到命令：" + contentJson);
 		PersonTalkContent content = gson.fromJson(contentJson.toString(), PersonTalkContent.class);
-		String groupId = PersonTalkGroupIdGenUtil.gen(content.getSender(), content.getReceiver());
+		String groupId = PersonChatGroupIdGen.gen(content.getSender(), content.getReceiver());
 		service.saveMessage(messageId, groupId, content.getSender(), content.getMessage(), content.getSendTime());
-		this.sendToReceiver(content);
+		this.sendToReceiver(messageId, groupId, content);
 	}
 
 	/**
@@ -60,21 +60,25 @@ public class PersonTalkConsumerExecuter extends CmdConsumerExecuter {
 	 * @Description:发送消息到接收者
 	 * @param content
 	 */
-	private void sendToReceiver(PersonTalkContent content) {
+	private void sendToReceiver(Long messageId, String groupId, PersonTalkContent content) {
 		String userState = userStateJedisRepository.selectUserState(content.getReceiver());
 		logger.debug("用户：" + content.getReceiver() + "\t 状态：" + userState);
-		TalkRecevieContent recevieContent = new TalkRecevieContent();
-		recevieContent.setMessage(content.getMessage());
-		recevieContent.setReceiver(content.getReceiver());
-		recevieContent.setSender(content.getSender());
-		recevieContent.setSendTime(content.getSendTime());
-		String recevieContentJsonStr = gson.toJson(recevieContent);
+
+		ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
+		chatMessageInfo.setGroupId(groupId);
+		chatMessageInfo.setMessage(content.getMessage());
+		chatMessageInfo.setMessageId(messageId);
+		chatMessageInfo.setSender(content.getSender());
+		chatMessageInfo.setSendTime(content.getSendTime());
+		chatMessageInfo.setReceiver(content.getReceiver());
+
+		String recevieContentJsonStr = gson.toJson(chatMessageInfo);
 		JsonObject recevieContentJson = gson.fromJson(recevieContentJsonStr, JsonObject.class);
 
 		// 用户在线则发送
 		if (UserStateConstants.Online_State.equals(userState)) {
 			Cmd cmd = new Cmd();
-			cmd.setCmd("TalkRecevie");
+			cmd.setCmd("ChatMessageRecevie");
 			cmd.setContent(recevieContentJson);
 
 			logger.debug("客户端发送的命令：" + cmd.getProducerCmd());

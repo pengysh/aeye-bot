@@ -9,13 +9,13 @@
 	<script src="/chat/js/addresslist.js"></script>
 	<!-- 定义JsRender模版 -->
 	<script id="addressListTemp" type="text/x-jsrender">
-	<div class="chat-user">
+	<div class="chat-user" onClick="addressUserClick({{:id}});">
 		{{if id!=1}}
 		<span class="pull-right label label-warning">离线</span>
 		{{/if}}
 		<img class="chat-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
 		<div class="chat-user-name">
-			<a href="javascript:addressUserClick({{:id}});">{{:name}}</a>
+		{{:name}}
 		</div>
 	</div>
 	</script>

@@ -6,5 +6,5 @@ public interface CmdExecuter {
 
 	abstract void sendMessage(JsonObject contentJson);
 
-	abstract void receiveMessage(String messageId, JsonObject contentJson);
+	abstract void receiveMessage(Long messageId, JsonObject contentJson);
 }
