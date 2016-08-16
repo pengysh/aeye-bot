@@ -5,6 +5,7 @@ public class GetChatRecordContent {
 	private Long userId;
 	private String chatAboutId;
 	private Long fromSendTime;
+	private String newOrHis;
 
 	public Long getUserId() {
 		return userId;
@@ -28,5 +29,13 @@ public class GetChatRecordContent {
 
 	public void setFromSendTime(Long fromSendTime) {
 		this.fromSendTime = fromSendTime;
+	}
+
+	public String getNewOrHis() {
+		return newOrHis;
+	}
+
+	public void setNewOrHis(String newOrHis) {
+		this.newOrHis = newOrHis;
 	}
 }

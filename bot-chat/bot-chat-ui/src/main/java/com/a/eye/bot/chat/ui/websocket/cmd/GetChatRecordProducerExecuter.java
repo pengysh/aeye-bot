@@ -30,11 +30,13 @@ public class GetChatRecordProducerExecuter extends CmdProducerExecuter {
 	private static final String FromSendTime_Param = "fromSendTime";
 	private static final String UserId_Param = "userId";
 	private static final String ChatAboutId_Param = "chatAboutId";
+	private static final String NewOrHis_Param = "newOrHis";
 
 	public void sendMessage(JsonObject contentJson) {
 		logger.debug("收到命令：" + contentJson);
 		GetChatRecordContent content = new GetChatRecordContent();
 		content.setUserId(contentJson.get(UserId_Param).getAsLong());
+		content.setNewOrHis(contentJson.get(NewOrHis_Param).getAsString());
 
 		String chatAboutId = contentJson.get(ChatAboutId_Param).getAsString();
 		String[] chatAboutIds = chatAboutId.split("-");

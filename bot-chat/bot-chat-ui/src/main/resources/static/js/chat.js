@@ -1,6 +1,8 @@
 if (!window.WebSocket) {
 	toastrShow("浏览器不支持WebSocket");
 }
+
+var messageSendTimeFirst;
 function initWebSocket() {
 	console.log("initWebSocket");
 	messagews = new ReconnectingWebSocket("ws://www.aeye.com:8104/ws/sendmessage");
@@ -9,14 +11,24 @@ function initWebSocket() {
 
 		if ('ChatMessage' == response.Cmd) {
 			console.log("收到消息：" + event.data);
-			showMessage(response);
+			showNewMessage(response);
 		} else if ('GetChatRecord' == response.Cmd) {
-			console.log("收到消息：" + event.data);
 			var messageList = response.messageList;
-			for (i in messageList) {
-				var messageContent = messageList[i];
-				messageContent.userId = getCookie("userId");
-				showMessage(messageContent);
+			if ("his" == response.newOrHis) {
+				for (i = 0; i < messageList.length; i++) {
+					console.log("收到消息：" + messageList[i]);
+					var messageContent = messageList[i];
+					messageContent.userId = getCookie("userId");
+					mergeSendTime(messageContent.sendTime);
+					showHisMessage(messageContent);
+				}
+			} else {
+				for (i = messageList.length - 1; i >= 0; i--) {
+					var messageContent = messageList[i];
+					messageContent.userId = getCookie("userId");
+					mergeSendTime(messageContent.sendTime);
+					showNewMessage(messageContent);
+				}
 			}
 		}
 
@@ -67,13 +79,28 @@ function laddaSendMessage(buttonId, meesage, source) {
 	}, 12000)
 }
 
-function showMessage(data) {
+function showHisMessage(data) {
+	var template = $.templates("#messageTemp");
+	var htmlOutput = template.render(data);
+	var messageContentDiv = $("#div_messageContent");
+	messageContentDiv.prepend(htmlOutput);
+}
+
+function showNewMessage(data) {
 	var template = $.templates("#messageTemp");
 	var htmlOutput = template.render(data);
 	var messageContentDiv = $("#div_messageContent");
 	messageContentDiv.append(htmlOutput);
-	
 	messageContentDiv[0].scrollTop = messageContentDiv[0].scrollHeight;
+}
+
+function mergeSendTime(sendTime) {
+	console.log("messageSendTimeFirst:" + moment(messageSendTimeFirst, 'x').format("YYYY-MM-DD HH:mm:SS") + ",sendTime:" + moment(sendTime, 'x').format("YYYY-MM-DD HH:mm:SS"));
+	if (!messageSendTimeFirst) {
+		messageSendTimeFirst = sendTime;
+	} else if (messageSendTimeFirst > sendTime) {
+		messageSendTimeFirst = sendTime;
+	}
 }
 
 $(document).ready(function() {
@@ -84,6 +111,7 @@ $(document).ready(function() {
 
 	initWebSocket();
 
+	$("#div_message_box").hide();
 	$("#div_addresslisttemp").load("/chat/addresslist.html");
 	$("#div_messagetemp").load("/chat/message.html");
 

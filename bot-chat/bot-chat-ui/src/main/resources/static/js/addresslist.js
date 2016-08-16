@@ -7,8 +7,10 @@ function addressUserClick(userId) {
 		content.fromSendTime = moment().format('x');
 		content.chatAboutId = userId + "-" + getCookie("userId");
 		content.userId = getCookie("userId");
+		content.newOrHis = "new";
 		sendMessage("GetChatRecord", content);
 
 		$("#div_messageContent").empty();
+		$("#div_message_box").show();
 	}
 }

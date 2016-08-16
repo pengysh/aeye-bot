@@ -65,6 +65,7 @@ public class PersonChatProducerExecuter extends CmdProducerExecuter {
 
 		String recevieContentJsonStr = gson.toJson(chatMessageInfo);
 		JsonObject recevieContentJson = gson.fromJson(recevieContentJsonStr, JsonObject.class);
+		recevieContentJson.addProperty("userId", content.getSender());
 
 		Cmd cmd = new Cmd();
 		cmd.setCmd("ChatMessageRecevie");

@@ -54,7 +54,7 @@ public class GetChatRecordConsumerExecuter extends CmdConsumerExecuter {
 		logger.debug("收到命令：" + contentJson);
 		GetChatRecordContent content = gson.fromJson(contentJson.toString(), GetChatRecordContent.class);
 		List<ChatMessage> messageList = service.getMessage(content.getChatAboutId(), content.getFromSendTime());
-		this.sendToGeter(content.getUserId(), messageList);
+		this.sendToGeter(content.getUserId(), messageList, content.getNewOrHis());
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class GetChatRecordConsumerExecuter extends CmdConsumerExecuter {
 	 * @param userId
 	 * @param messageList
 	 */
-	private void sendToGeter(Long userId, List<ChatMessage> messageList) {
+	private void sendToGeter(Long userId, List<ChatMessage> messageList, String newOrHis) {
 		List<ChatMessageInfo> contentList = new ArrayList<ChatMessageInfo>();
 		for (ChatMessage chatMessage : messageList) {
 			ChatMessageInfo chatMessageInfo = new ChatMessageInfo();
@@ -88,6 +88,7 @@ public class GetChatRecordConsumerExecuter extends CmdConsumerExecuter {
 		JsonObject messageContentJson = new JsonObject();
 		messageContentJson.add("messageList", messageListJson);
 		messageContentJson.addProperty("userId", userId);
+		messageContentJson.addProperty("newOrHis", newOrHis);
 
 		Cmd cmd = new Cmd();
 		cmd.setCmd("GetChatRecord");

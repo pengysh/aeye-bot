@@ -2,6 +2,8 @@ package com.a.eye.bot.chat.service.service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -20,6 +22,8 @@ import com.a.eye.bot.chat.service.entity.ChatMessage;
  */
 @Service
 public class ChatMessageService {
+	
+	private Logger logger = LogManager.getLogger(ChatMessageService.class.getName());
 
 	@Autowired
 	private MongoTemplate template;
@@ -48,14 +52,15 @@ public class ChatMessageService {
 	 * @return
 	 */
 	public List<ChatMessage> getMessage(String groupId, Long fromSendTime) {
+		logger.debug("获取消息：" + groupId + "\t" + fromSendTime);
 		Query query = new Query(new Criteria().andOperator(Criteria.where("groupId").is(groupId), Criteria.where("sendTime").lt(fromSendTime)));
 
-		Integer pageSize = 20;
+		Integer pageSize = 6;
 		Integer pageNow = 1;
 		int offset = (pageNow - 1) * pageSize;
 		query.limit(pageSize);
 		query.skip(offset);
-		query.with(new Sort(Direction.ASC, "sendTime"));
+		query.with(new Sort(Direction.DESC, "sendTime"));
 		List<ChatMessage> messageList = template.find(query, ChatMessage.class);
 		return messageList;
 	}
