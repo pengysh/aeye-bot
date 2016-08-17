@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.a.eye.bot.chat.share.dubbo.provider.IUserFriendsDataServiceProvider;
+import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.common.consts.Constants;
 import com.a.eye.bot.common.exception.MessageException;
 import com.a.eye.bot.user.service.dao.UserMapper;
 import com.a.eye.bot.user.service.dubbo.consumer.UserAuthDataServiceConsumer;
 import com.a.eye.bot.user.service.entity.User;
 import com.a.eye.bot.user.service.util.UserInfoParseUtil;
-import com.a.eye.bot.user.share.entity.UserInfo;
-import com.a.eye.bot.user.share.redis.UserInfoJedisRepository;
+import com.alibaba.dubbo.config.annotation.Reference;
 
 /**
  * 
@@ -37,8 +39,8 @@ public class UserDataService {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserFriendsDataService userFriendsDataService;
+	@Reference
+	private IUserFriendsDataServiceProvider userFriendsDataService;
 
 	@Autowired
 	private UserAuthDataServiceConsumer userAuthDataServiceConsumer;
@@ -80,8 +82,8 @@ public class UserDataService {
 			departDataService.addUserInDept(5l, user.getId());
 
 			// 插入缓存
-			UserInfo userInfo = UserInfoParseUtil.parse(user);
-			userInfoJedisRepository.saveUserInfo(userInfo);
+			UserCacheInfo userCacheInfo = UserInfoParseUtil.parse(user);
+			userInfoJedisRepository.saveUserInfo(userCacheInfo);
 		} else {
 			throw new MessageException("邮箱已注册");
 		}

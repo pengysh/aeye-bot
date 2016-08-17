@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.user.service.dao.DepartMapper;
 import com.a.eye.bot.user.service.entity.Depart;
 import com.a.eye.bot.user.service.util.DepartUserInfoParseUtil;
 import com.a.eye.bot.user.share.entity.DepartUserInfo;
-import com.a.eye.bot.user.share.entity.UserInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -38,8 +38,8 @@ public class DepartService {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserFriendsService userFriendsService;
+//	@Autowired
+//	private UserFriendsService userFriendsService;
 
 	/**
 	 * @Title: getUserInDept
@@ -55,19 +55,19 @@ public class DepartService {
 		String userIds = depart.getUsers();
 		JsonArray userIdJson = gson.fromJson(userIds, JsonArray.class);
 
-		Map<Long, Long> userIdMap = userFriendsService.getUserFriendIds(userId);
+//		Map<Long, Long> userIdMap = userFriendsService.getUserFriendIds(userId);
 
 		List<DepartUserInfo> departUserInfoList = new ArrayList<DepartUserInfo>();
 		for (int i = 0; i < userIdJson.size(); i++) {
 			Long userIdInDepart = userIdJson.get(i).getAsLong();
-			UserInfo userInfo = userService.getUserDate(userIdInDepart);
+			UserCacheInfo userInfo = userService.getUserDate(userIdInDepart);
 			DepartUserInfo departUserInfo = DepartUserInfoParseUtil.parse(userInfo);
-			if (userIdMap.containsKey(departUserInfo.getId())) {
-				departUserInfo.setFriend(true);
-			}
-			if (userId != departUserInfo.getId()) {
-				departUserInfoList.add(departUserInfo);
-			}
+//			if (userIdMap.containsKey(departUserInfo.getId())) {
+//				departUserInfo.setFriend(true);
+//			}
+//			if (userId != departUserInfo.getId()) {
+//				departUserInfoList.add(departUserInfo);
+//			}
 		}
 
 		return departUserInfoList;

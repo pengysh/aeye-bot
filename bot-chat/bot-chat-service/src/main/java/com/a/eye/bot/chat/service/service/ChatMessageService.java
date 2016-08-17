@@ -55,7 +55,7 @@ public class ChatMessageService {
 		logger.debug("获取消息：" + groupId + "\t" + fromSendTime);
 		Query query = new Query(new Criteria().andOperator(Criteria.where("groupId").is(groupId), Criteria.where("sendTime").lt(fromSendTime)));
 
-		Integer pageSize = 6;
+		Integer pageSize = 10;
 		Integer pageNow = 1;
 		int offset = (pageNow - 1) * pageSize;
 		query.limit(pageSize);

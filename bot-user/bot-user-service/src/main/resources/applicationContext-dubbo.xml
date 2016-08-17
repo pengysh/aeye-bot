@@ -12,5 +12,5 @@
 
 	<dubbo:consumer check="false" />
 
-	<dubbo:annotation package="com.a.eye.bot.user.service.dubbo" />
+	<dubbo:annotation package="com.a.eye.bot.user.service" />
 </beans>

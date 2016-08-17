@@ -1,7 +1,7 @@
 package com.a.eye.bot.user.service.util;
 
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.user.service.entity.User;
-import com.a.eye.bot.user.share.entity.UserInfo;
 
 /**
  * @Title: UserInfoParseUtil.java
@@ -11,10 +11,9 @@ import com.a.eye.bot.user.share.entity.UserInfo;
  */
 public class UserInfoParseUtil {
 
-	public static UserInfo parse(User user) {
-		UserInfo uesrInfo = new UserInfo();
-		uesrInfo.setId(user.getId());
-		uesrInfo.setCompanyId(user.getCompanyId());
+	public static UserCacheInfo parse(User user) {
+		UserCacheInfo uesrInfo = new UserCacheInfo();
+		uesrInfo.setUserId(user.getId());
 		uesrInfo.setEmail(user.getEmail());
 		uesrInfo.setName(user.getName());
 		uesrInfo.setHeadImage(user.getHeadImage());

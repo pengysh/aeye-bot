@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.user.service.service.UserService;
 import com.a.eye.bot.user.share.dubbo.provider.IUserServiceProvider;
-import com.a.eye.bot.user.share.entity.UserInfo;
 import com.a.eye.bot.user.share.entity.UserLoginEntity;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.google.gson.Gson;
@@ -32,8 +32,8 @@ public class UserServiceProvider implements IUserServiceProvider {
 
 	@Override
 	public String getUserDate(Long userId) {
-		UserInfo uesrInfo = service.getUserDate(userId);
-		return gson.toJson(uesrInfo);
+		UserCacheInfo userCacheInfo = service.getUserDate(userId);
+		return gson.toJson(userCacheInfo);
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class UserServiceProvider implements IUserServiceProvider {
 			userIds[i] = userIdJsonArray.get(i).getAsLong();
 		}
 
-		List<UserInfo> userInfoList = service.getBatchUserData(userIds);
+		List<UserCacheInfo> userInfoList = service.getBatchUserData(userIds);
 
 		return gson.toJson(userInfoList);
 	}

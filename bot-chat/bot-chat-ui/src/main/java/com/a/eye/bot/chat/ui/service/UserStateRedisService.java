@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a.eye.bot.chat.share.conts.UserStateConstants;
-import com.a.eye.bot.chat.share.redis.UserStateJedisRepository;
+import com.a.eye.bot.common.cache.redis.UserStateJedisRepository;
 
 /**
  * @Title: UserStateService.java

@@ -30,8 +30,10 @@ function initWebSocket() {
 					showNewMessage(messageContent);
 				}
 			}
+		} else if ('UserStateNotice' == response.Cmd) {
+			var stateUserId = response.userId;
+			var state = response.state;
 		}
-
 	};
 	messagews.onclose = function(event) {
 		console.log("messagews:onclose", messagews.readyState);
@@ -117,7 +119,7 @@ $(document).ready(function() {
 
 	$.ajax({
 		type : "POST",
-		url : "/user/friend/getUserFriends",
+		url : "/chat/friend/getUserFriends",
 		data : {},
 		contentType : "application/json;charset=UTF-8",
 		dataType : "json",

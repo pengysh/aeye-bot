@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.ImportResource;
  * @date 2016年8月10日 下午10:11:21
  * @Description: 系统主界面启动类
  */
-@ComponentScan("com.a.eye.bot.chat.ui,com.a.eye.bot.chat.share,com.a.eye.bot.common.util,com.a.eye.bot.user.share.redis")
 @ImportResource("classpath:applicationContext-ui.xml")
 @EnableAutoConfiguration
 public class ChatWebApplication extends SpringBootServletInitializer {

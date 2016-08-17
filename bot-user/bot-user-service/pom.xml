@@ -38,5 +38,15 @@
 			<artifactId>bot-auth-share</artifactId>
 			<version>0.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.a.eye</groupId>
+			<artifactId>bot-common-cache</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.a.eye</groupId>
+			<artifactId>bot-chat-share</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
 </project>

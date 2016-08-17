@@ -13,12 +13,15 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.a.eye.bot.chat.share.conts.UserStateConstants;
 import com.a.eye.bot.chat.ui.service.UserStateRedisService;
+import com.a.eye.bot.chat.ui.websocket.cmd.UserStateNoticeProducerExecuter;
 import com.a.eye.bot.common.message.cmd.Cmd;
 import com.a.eye.bot.common.message.cmd.CmdExecuter;
 import com.a.eye.bot.common.ui.consts.Constants;
 import com.a.eye.bot.common.util.SpringContextUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 /**
  * @Title: ChatWebSocketHandler.java
@@ -50,6 +53,7 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 		logger.debug("ConnectionEstablished");
 		// 更新用户状态为在线
 		Long userId = (Long) session.getAttributes().get(Constants.UserId);
+		this.userStateNotice(userId, UserStateConstants.Online_State);
 
 		users.put(userId, session);
 		userStateRedisService.userOnline(userId);
@@ -107,6 +111,7 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 
 		// 更新用户状态为在线
 		Long userId = (Long) session.getAttributes().get(Constants.UserId);
+		this.userStateNotice(userId, UserStateConstants.Offline_State);
 		userStateRedisService.userOffline(userId);
 	}
 
@@ -134,5 +139,26 @@ public class ChatWebSocketHandler implements WebSocketHandler {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * @Title: userStateNotice
+	 * @author: pengysh
+	 * @date 2016年8月16日 下午5:07:31
+	 * @Description:用户上线和离线状态通知
+	 * @param userId
+	 * @param state
+	 */
+	private void userStateNotice(Long userId, String state) {
+		JsonObject content = new JsonObject();
+		content.addProperty(UserStateNoticeProducerExecuter.UserId_Param, userId);
+		content.addProperty(UserStateNoticeProducerExecuter.State_Param, state);
+
+		Cmd cmd = new Cmd();
+		cmd.setCmd("UserStateNotice");
+		cmd.setContent(content);
+		CmdExecuter executer = SpringContextUtil.getBean(cmd.getProducerCmd());
+		logger.debug("命令执行实例：" + executer.getClass());
+		executer.sendMessage(cmd.getContent());
 	}
 }

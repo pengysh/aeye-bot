@@ -12,13 +12,13 @@ import com.a.eye.bot.chat.service.entity.ChatMessage;
 import com.a.eye.bot.chat.service.service.ChatMessageService;
 import com.a.eye.bot.chat.share.content.GetChatRecordContent;
 import com.a.eye.bot.chat.share.entity.ChatMessageInfo;
+import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.common.message.cmd.Cmd;
 import com.a.eye.bot.common.message.cmd.CmdConsumerExecuter;
 import com.a.eye.bot.common.message.cmd.CmdExecuter;
 import com.a.eye.bot.common.util.DateUtil;
 import com.a.eye.bot.common.util.SpringContextUtil;
-import com.a.eye.bot.user.share.entity.UserInfo;
-import com.a.eye.bot.user.share.redis.UserInfoJedisRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -75,7 +75,7 @@ public class GetChatRecordConsumerExecuter extends CmdConsumerExecuter {
 			chatMessageInfo.setSender(chatMessage.getSender());
 			chatMessageInfo.setSendTime(chatMessage.getSendTime());
 
-			UserInfo userInfo = userInfoJedisRepository.selectUserInfo(chatMessage.getSender());
+			UserCacheInfo userInfo = userInfoJedisRepository.selectUserInfo(chatMessage.getSender());
 
 			chatMessageInfo.setSenderName(userInfo.getName());
 			chatMessageInfo.setHeadImage(userInfo.getHeadImage());

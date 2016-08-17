@@ -11,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
+import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.common.exception.MessageException;
 import com.a.eye.bot.user.service.dao.UserMapper;
 import com.a.eye.bot.user.service.dubbo.consumer.UserAuthServiceConsumer;
 import com.a.eye.bot.user.service.entity.User;
 import com.a.eye.bot.user.service.util.UserInfoParseUtil;
-import com.a.eye.bot.user.share.entity.UserInfo;
 import com.a.eye.bot.user.share.entity.UserLoginEntity;
-import com.a.eye.bot.user.share.redis.UserInfoJedisRepository;
 
 /**
  * @Title: UserService.java
@@ -98,18 +98,18 @@ public class UserService {
 	 * @param userId
 	 * @return
 	 */
-	public UserInfo getUserDate(Long userId) {
-		UserInfo userInfo = userInfoJedisRepository.selectUserInfo(userId);
-		if (ObjectUtils.isEmpty(userInfo)) {
+	public UserCacheInfo getUserDate(Long userId) {
+		UserCacheInfo userCacheInfo = userInfoJedisRepository.selectUserInfo(userId);
+		if (ObjectUtils.isEmpty(userCacheInfo)) {
 			User user = userMapper.selectByPrimaryKey(userId);
 
 			if (!ObjectUtils.isEmpty(user)) {
 				// 插入缓存
-				userInfo = UserInfoParseUtil.parse(user);
-				userInfoJedisRepository.saveUserInfo(userInfo);
+				userCacheInfo = UserInfoParseUtil.parse(user);
+				userInfoJedisRepository.saveUserInfo(userCacheInfo);
 			}
 		}
-		return userInfo;
+		return userCacheInfo;
 	}
 
 	/**
@@ -120,21 +120,21 @@ public class UserService {
 	 * @param userIdJsonArrayStr
 	 * @return
 	 */
-	public List<UserInfo> getBatchUserData(Long[] userIds) {
-		List<UserInfo> userList = new ArrayList<UserInfo>();
+	public List<UserCacheInfo> getBatchUserData(Long[] userIds) {
+		List<UserCacheInfo> userList = new ArrayList<UserCacheInfo>();
 
 		for (Long userId : userIds) {
-			UserInfo userInfo = userInfoJedisRepository.selectUserInfo(userId);
-			if (ObjectUtils.isEmpty(userInfo)) {
+			UserCacheInfo userCacheInfo = userInfoJedisRepository.selectUserInfo(userId);
+			if (ObjectUtils.isEmpty(userCacheInfo)) {
 				User user = userMapper.selectByPrimaryKey(userId);
 
 				if (!ObjectUtils.isEmpty(user)) {
 					// 插入缓存
-					userInfo = UserInfoParseUtil.parse(user);
-					userInfoJedisRepository.saveUserInfo(userInfo);
+					userCacheInfo = UserInfoParseUtil.parse(user);
+					userInfoJedisRepository.saveUserInfo(userCacheInfo);
 				}
 			}
-			userList.add(userInfo);
+			userList.add(userCacheInfo);
 		}
 
 		return userList;

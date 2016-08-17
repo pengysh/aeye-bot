@@ -1,7 +1,7 @@
 package com.a.eye.bot.user.service.util;
 
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.user.share.entity.DepartUserInfo;
-import com.a.eye.bot.user.share.entity.UserInfo;
 
 /**
  * @Title: DepartUserInfoParseUtil.java
@@ -11,10 +11,9 @@ import com.a.eye.bot.user.share.entity.UserInfo;
  */
 public class DepartUserInfoParseUtil {
 
-	public static DepartUserInfo parse(UserInfo userInfo) {
+	public static DepartUserInfo parse(UserCacheInfo userInfo) {
 		DepartUserInfo departUserInfo = new DepartUserInfo();
-		departUserInfo.setId(userInfo.getId());
-		departUserInfo.setCompanyId(userInfo.getCompanyId());
+		departUserInfo.setId(userInfo.getUserId());
 		departUserInfo.setEmail(userInfo.getEmail());
 		departUserInfo.setName(userInfo.getName());
 		departUserInfo.setHeadImage(userInfo.getHeadImage());

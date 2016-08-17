@@ -41,7 +41,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.a.eye</groupId>
-			<artifactId>bot-user-share</artifactId>
+			<artifactId>bot-common-cache</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 	</dependencies>

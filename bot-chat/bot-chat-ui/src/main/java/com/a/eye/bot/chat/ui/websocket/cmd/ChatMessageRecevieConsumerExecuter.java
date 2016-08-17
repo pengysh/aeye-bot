@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 
 import com.a.eye.bot.chat.ui.websocket.ChatWebSocketHandler;
+import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.a.eye.bot.common.message.cmd.CmdConsumerExecuter;
 import com.a.eye.bot.common.util.DateUtil;
-import com.a.eye.bot.user.share.entity.UserInfo;
-import com.a.eye.bot.user.share.redis.UserInfoJedisRepository;
 import com.google.gson.JsonObject;
 
 /**
@@ -35,7 +35,7 @@ public class ChatMessageRecevieConsumerExecuter extends CmdConsumerExecuter {
 		logger.debug("收到消息：" + messageId + "\t" + contentJson.toString());
 		Long sender = contentJson.get(Sender_Param).getAsLong();
 		Long sendTime = contentJson.get(SenderTime_Param).getAsLong();
-		UserInfo userInfo = userInfoJedisRepository.selectUserInfo(sender);
+		UserCacheInfo userInfo = userInfoJedisRepository.selectUserInfo(sender);
 		contentJson.addProperty("Cmd", "ChatMessage");
 		contentJson.addProperty("senderName", userInfo.getName());
 		contentJson.addProperty("headImage", userInfo.getHeadImage());
