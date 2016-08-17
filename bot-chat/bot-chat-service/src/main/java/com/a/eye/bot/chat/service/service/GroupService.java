@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.a.eye.bot.chat.service.entity.ChatGroup;
+import com.a.eye.bot.chat.service.entity.Group;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
  * @Description:聊天群组服务
  */
 @Service
-public class ChatGroupService {
+public class GroupService {
 
 	private Gson gson = new Gson();
 
@@ -36,10 +36,24 @@ public class ChatGroupService {
 	 */
 	public List<Long> getGroupUserIds(Long groupId) {
 		Query query = new Query(Criteria.where("groupId").is(groupId));
-		ChatGroup chatGroup = template.findOne(query, ChatGroup.class);
+		Group chatGroup = template.findOne(query, Group.class);
 		String users = chatGroup.getUsers();
 		List<Long> storeUserIds = gson.fromJson(users, new TypeToken<List<Long>>() {
 		}.getType());
 		return storeUserIds;
+	}
+
+	/**
+	 * @Title: getGroupInfo
+	 * @author: pengysh
+	 * @date 2016年8月17日 下午4:45:22
+	 * @Description:群组查询
+	 * @param groupId
+	 * @return
+	 */
+	public Group getGroupInfo(Long groupId) {
+		Query query = new Query(Criteria.where("groupId").is(groupId));
+		Group chatGroup = template.findOne(query, Group.class);
+		return chatGroup;
 	}
 }

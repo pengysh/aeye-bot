@@ -9,8 +9,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.a.eye.bot.chat.service.entity.ChatGroup;
+import com.a.eye.bot.chat.service.entity.Group;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -20,7 +21,7 @@ import com.google.gson.reflect.TypeToken;
  * @Description:聊天群组数据服务
  */
 @Service
-public class ChatGroupDataService {
+public class GroupDataService {
 
 	private Gson gson = new Gson();
 
@@ -36,8 +37,10 @@ public class ChatGroupDataService {
 	 * @param title
 	 * @param userIds
 	 */
-	public void createChatGroup(Long groupId, String title, List<Long> userIds) {
-		template.insert(new ChatGroup(groupId, title, userIds));
+	public void createChatGroup(String title, String purpose, boolean publicOrPrivate, JsonArray userJson) {
+		String users = userJson.toString();
+		Integer userCount = userJson.size();
+		template.insert(new Group(title, purpose, publicOrPrivate, users, userCount));
 	}
 
 	/**
@@ -50,7 +53,7 @@ public class ChatGroupDataService {
 	 */
 	public void modifyTitle(Long groupId, String title) {
 		Query query = new Query(Criteria.where("groupId").is(groupId));
-		template.updateFirst(query, Update.update("title", title), ChatGroup.class);
+		template.updateFirst(query, Update.update("title", title), Group.class);
 	}
 
 	/**
@@ -63,12 +66,12 @@ public class ChatGroupDataService {
 	 */
 	public void addGroupUser(Long groupId, List<Long> userIds) {
 		Query query = new Query(Criteria.where("groupId").is(groupId));
-		ChatGroup chatGroup = template.findOne(query, ChatGroup.class);
+		Group chatGroup = template.findOne(query, Group.class);
 		String users = chatGroup.getUsers();
 		List<Long> storeUserIds = gson.fromJson(users, new TypeToken<List<Long>>() {
 		}.getType());
 		storeUserIds.addAll(userIds);
-		template.updateFirst(query, Update.update("users", storeUserIds.toString()), ChatGroup.class);
+		template.updateFirst(query, Update.update("users", storeUserIds.toString()), Group.class);
 	}
 
 	/**
@@ -81,11 +84,11 @@ public class ChatGroupDataService {
 	 */
 	public void quitGroup(Long groupId, Long userId) {
 		Query query = new Query(Criteria.where("groupId").is(groupId));
-		ChatGroup chatGroup = template.findOne(query, ChatGroup.class);
+		Group chatGroup = template.findOne(query, Group.class);
 		String users = chatGroup.getUsers();
 		List<Long> storeUserIds = gson.fromJson(users, new TypeToken<List<Long>>() {
 		}.getType());
 		storeUserIds.remove(userId);
-		template.updateFirst(query, Update.update("users", storeUserIds.toString()), ChatGroup.class);
+		template.updateFirst(query, Update.update("users", storeUserIds.toString()), Group.class);
 	}
 }

@@ -24,4 +24,22 @@ public class PersonChatGroupIdGen {
 			return String.valueOf(userIdOne) + "-" + String.valueOf(userIdTwo);
 		}
 	}
+
+	/**
+	 * @Title: getTogetherUserId
+	 * @author: pengysh
+	 * @date 2016年8月17日 下午4:55:13
+	 * @Description:获取对方的UserId
+	 * @param genId
+	 * @param userIdOne
+	 * @return
+	 */
+	public static Long getTogetherUserId(String genId, Long userIdOne) {
+		String[] userIds = genId.split("-");
+		if (userIds[0].equals(userIdOne)) {
+			return Long.valueOf(userIds[1]);
+		} else {
+			return Long.valueOf(userIds[0]);
+		}
+	}
 }

@@ -23,10 +23,10 @@ function initWebSocket() {
 					showHisMessage(messageContent);
 				}
 			} else {
-				if(messageList.length == 0){
+				if (messageList.length == 0) {
 					showMessageWithNewFriend();
 				}
-				
+
 				for (i = messageList.length - 1; i >= 0; i--) {
 					var messageContent = messageList[i];
 					messageContent.userId = getCookie("userId");
@@ -118,7 +118,7 @@ function showMessageWithNewFriend() {
 		"sender" : userId,
 		"senderName" : userName,
 		"headImage" : headImage,
-		"message" : "新交的朋友，聊两句吧",
+		"message" : "长夜漫漫无心睡眠，聊两句吧",
 		"sendTime" : moment().format('x'),
 		"sendTimeFormat" : moment().format("YYYY-MM-DD HH:mm:SS")
 	};
@@ -136,6 +136,13 @@ $(document).ready(function() {
 	$("#div_message_box").hide();
 	$("#div_addresslisttemp").load("/chat/addresslist.html");
 	$("#div_messagetemp").load("/chat/message.html");
+	$("#div_stafflisttemp").load("/chat/friend/staff.html");
+	$("#div_addfriend_container").hide();
+	
+	$("#btn_addfriend_back").click(function() {
+		$("#div_addfriend_container").hide();
+		$("#div_chat_container").show();
+	});
 
 	$.ajax({
 		type : "POST",
@@ -157,4 +164,15 @@ $(document).ready(function() {
 			template.link("#div_userlist", newdata);
 		},
 	});
+	
+	$("#div_topicListtemp").load("/chat/topic/topic.html");
+	var addTopic = [ {
+		"userId" : 1,
+		"name" : "添加新的朋友",
+		"headImage" : "5.png",
+		"state" : "offline"
+	} ];
+
+	var template = $.templates("#addressListTemp");
+	template.link("#div_userlist", newdata);
 });

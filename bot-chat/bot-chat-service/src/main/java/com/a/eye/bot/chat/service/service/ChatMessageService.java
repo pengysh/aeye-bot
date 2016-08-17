@@ -22,7 +22,7 @@ import com.a.eye.bot.chat.service.entity.ChatMessage;
  */
 @Service
 public class ChatMessageService {
-	
+
 	private Logger logger = LogManager.getLogger(ChatMessageService.class.getName());
 
 	@Autowired

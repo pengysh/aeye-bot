@@ -16,25 +16,32 @@
 								<div id="div_messageContent" class="chat-discussion"></div>
 							</div>
 							<div class="col-md-3">
-								<div class="tabs-container">
+								<div class="tabs-container" id="div_addfriend_container">
+									<div class="chat-users animated fadeInRight" id="div_addfriend">
+									</div>
+									<button class="btn btn-default btn-circle" type="button" id="btn_addfriend_back">
+										<i class="fa fa-mail-reply"></i>
+									</button>
+								</div>
+								<div class="tabs-container" id="div_chat_container">
 									<ul class="nav nav-tabs chat-statistic">
 										<li class="active">
 											<a data-toggle="tab" href="#talkRecord">
 												<i class="fa fa-wechat"></i>
-												聊天
+												话题
 											</a>
 										</li>
 										<li class="">
 											<a data-toggle="tab" href="#addressList">
 												<i class="fa fa-group"></i>
-												通讯录
+												好友
 											</a>
 										</li>
 									</ul>
 									<div class="chat-users tab-content">
 										<div class="tab-pane active" id="talkRecord"></div>
 										<div class="tab-pane" id="addressList">
-											<div class="users-list" id="div_userlist"></div>
+											<div class="users-list animated bounceInDown" id="div_userlist"></div>
 										</div>
 									</div>
 								</div>
@@ -56,8 +63,9 @@
 		</div>
 	</div>
 	<div id="div_addresslisttemp"></div>
-	<div id="div_taskrecordtemp"></div>
+	<div id="div_topicListtemp"></div>
 	<div id="div_messagetemp"></div>
+	<div id="div_stafflisttemp"></div>
 	<script src="http://www.aeye.com/source/webjars/jquery-cookie/1.4.1-1/jquery.cookie.js"></script>
 	<script src="http://www.aeye.com/source/webjars/momentjs/2.9.0/min/moment.min.js"></script>
 	<script src="/chat/js/chat.js"></script>

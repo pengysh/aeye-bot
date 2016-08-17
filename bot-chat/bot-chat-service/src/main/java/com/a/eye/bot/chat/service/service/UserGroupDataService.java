@@ -1,7 +1,5 @@
 package com.a.eye.bot.chat.service.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,10 +7,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.a.eye.bot.chat.service.entity.ChatGroup;
-import com.a.eye.bot.chat.service.entity.UserChatGroup;
-import com.a.eye.bot.chat.service.entity.UserChatGroupContent;
+import com.a.eye.bot.chat.service.entity.UserGroup;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 /**
  * @Title: UserChatGroupDataService.java
@@ -21,7 +19,7 @@ import com.google.gson.Gson;
  * @Description:用户所在群数据服务
  */
 @Service
-public class UserChatGroupDataService {
+public class UserGroupDataService {
 
 	private Gson gson = new Gson();
 
@@ -36,9 +34,9 @@ public class UserChatGroupDataService {
 	 * @param userId
 	 */
 	public void createUserChatGroup(Long userId) {
-		template.insert(new UserChatGroup(userId));
+		template.insert(new UserGroup(userId));
 	}
-
+	
 	/**
 	 * @Title: joinGroup
 	 * @author: pengysh
@@ -47,16 +45,16 @@ public class UserChatGroupDataService {
 	 * @param userId
 	 * @param groupId
 	 */
-	public void joinGroup(Long userId, Long groupId) {
+	public void joinGroup(Long userId, String groupId, Boolean realGroup) {
 		Query query = new Query(Criteria.where("userId").is(userId));
-		UserChatGroup userChatGroup = template.findOne(query, UserChatGroup.class);
-		List<UserChatGroupContent> groupList = userChatGroup.getGroup();
-
-		UserChatGroupContent group = new UserChatGroupContent();
-		group.setGroupId(groupId);
-		group.setOffset(0l);
-		groupList.add(group);
-		template.updateFirst(query, Update.update("users", gson.toJson(groupList)), ChatGroup.class);
+		UserGroup userChatGroup = template.findOne(query, UserGroup.class);
+		String groups = userChatGroup.getGroups();
+		JsonArray groupJson = gson.fromJson(groups, JsonArray.class);
+		JsonObject group = new JsonObject();
+		group.addProperty("realGroup", realGroup);
+		group.addProperty("groupId", groupId);
+		groupJson.add(group);
+		template.updateFirst(query, Update.update("groups", groupJson.toString()), UserGroup.class);
 	}
 
 	/**
@@ -67,17 +65,18 @@ public class UserChatGroupDataService {
 	 * @param userId
 	 * @param groupId
 	 */
-	public void quitGroup(Long userId, Long groupId) {
+	public void quitGroup(Long userId, String groupId) {
 		Query query = new Query(Criteria.where("userId").is(userId));
-		UserChatGroup userChatGroup = template.findOne(query, UserChatGroup.class);
-		List<UserChatGroupContent> groupList = userChatGroup.getGroup();
-		for (UserChatGroupContent content : groupList) {
-			if (content.getGroupId() == groupId) {
-				groupList.remove(content);
-				break;
+		UserGroup userChatGroup = template.findOne(query, UserGroup.class);
+		String groups = userChatGroup.getGroups();
+		JsonArray groupJson = gson.fromJson(groups, JsonArray.class);
+		for (int i = 0; i < groupJson.size(); i++) {
+			JsonObject group = groupJson.get(i).getAsJsonObject();
+			if (group.get("groupId").getAsString().equals(groupId)) {
+				groupJson.remove(i);
 			}
 		}
 
-		template.updateFirst(query, Update.update("users", gson.toJson(groupList)), ChatGroup.class);
+		template.updateFirst(query, Update.update("groups", groupJson.toString()), UserGroup.class);
 	}
 }
