@@ -1,7 +1,7 @@
 var staffdata;
 
 $(document).ready(function() {
-	$("#div_stafflisttemp").load("/friend/staff.html");
+	$("#div_stafflisttemp").load("/chat/friend/staff.html");
 	
 	$.ajax({
 		type : "POST",

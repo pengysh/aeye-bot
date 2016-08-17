@@ -43,7 +43,7 @@ public class UserStateNoticeConsumerExecuter extends CmdConsumerExecuter {
 	 */
 	public void receiveMessage(Long messageId, JsonObject contentJson) {
 		logger.debug("收到命令：" + contentJson);
-		Long userId = contentJson.get("usesrId").getAsLong();
+		Long userId = contentJson.get("userId").getAsLong();
 		String state = contentJson.get("state").getAsString();
 		Map<Long, Long> friendsMap = userFriendsService.getUserFriendIds(userId);
 		for (Map.Entry<Long, Long> entry : friendsMap.entrySet()) {

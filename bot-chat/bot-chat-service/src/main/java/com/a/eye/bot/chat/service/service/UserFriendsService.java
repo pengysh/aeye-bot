@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 import com.a.eye.bot.chat.service.entity.UserFriends;
 import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
 import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
-import com.a.eye.bot.common.consts.Constants;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -40,6 +39,9 @@ public class UserFriendsService {
 	private MongoTemplate template;
 
 	@Autowired
+	private UserFriendsDataService userFriendsDataService;
+
+	@Autowired
 	private UserInfoJedisRepository userInfoJedisRepository;
 
 	/**
@@ -54,9 +56,16 @@ public class UserFriendsService {
 		logger.debug("用户好友查询：" + userId);
 		Query query = new Query(Criteria.where("userId").is(userId));
 		UserFriends userFriends = template.findOne(query, UserFriends.class);
+
+		//TODO 后期删除
+		if (userFriends == null) {
+			userFriendsDataService.addUserFriends(userId);
+			userFriends = template.findOne(query, UserFriends.class);
+		}
+
 		String friends = userFriends.getFriends();
 		if (StringUtils.isEmpty(friends)) {
-			return Constants.EmptyString;
+			return new JsonArray().toString();
 		} else {
 			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
 
@@ -87,7 +96,7 @@ public class UserFriendsService {
 		UserFriends userFriends = template.findOne(query, UserFriends.class);
 		String friends = userFriends.getFriends();
 		if (StringUtils.isEmpty(friends)) {
-			return null;
+			return new HashMap<Long, Long>();
 		} else {
 			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
 

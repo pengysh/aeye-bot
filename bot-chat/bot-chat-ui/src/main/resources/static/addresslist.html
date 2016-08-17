@@ -9,11 +9,11 @@
 	<script src="/chat/js/addresslist.js"></script>
 	<!-- 定义JsRender模版 -->
 	<script id="addressListTemp" type="text/x-jsrender">
-	<div class="chat-user" id="div_address_user{{:id}}" onClick="addressUserClick({{:id}});">
-		{{if id!=1 && {{:id}} == 'offline'}}
+	<div class="chat-user" id="div_address_user{{:userId}}" onClick="addressUserClick({{:userId}},'{{:name}}','{{:headImage}}');">
+		{{if userId != 1 && state == "offline"}}
 		<span class="pull-right label label-warning">离线</span>
 		{{/if}}
-		{{if id!=1 && {{:id}} == 'online'}}
+		{{if userId != 1 && state == "online"}}
 		<span class="pull-right label label-primary">在线</span>
 		{{/if}}
 		<img class="chat-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
@@ -22,5 +22,8 @@
 		</div>
 	</div>
 	</script>
+	<input id="input_click_friend_userId" type="hidden">
+	<input id="input_click_friend_userName" type="hidden">
+	<input id="input_click_friend_headImage" type="hidden">
 </body>
 </html>

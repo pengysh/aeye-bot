@@ -63,15 +63,22 @@ public class UserFriendsDataService {
 	private void addFriendForOneSide(Long userId, Long friendsUserId) {
 		Query query = new Query(Criteria.where("userId").is(userId));
 		UserFriends userFriends = template.findOne(query, UserFriends.class);
+		
+		//TODO 后期删除
+		if (userFriends == null) {
+			this.addUserFriends(userId);
+			userFriends = template.findOne(query, UserFriends.class);
+		}
+		
 		String friends = userFriends.getFriends();
 		if (StringUtils.isEmpty(friends)) {
 			JsonArray friendsJson = new JsonArray();
 			friendsJson.add(friendsUserId);
-			template.updateFirst(query, Update.update("friends", friends), UserFriends.class);
+			template.updateFirst(query, Update.update("friends", friendsJson.toString()), UserFriends.class);
 		} else {
 			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
 			friendsJson.add(friendsUserId);
-			template.updateFirst(query, Update.update("friends", friends), UserFriends.class);
+			template.updateFirst(query, Update.update("friends", friendsJson.toString()), UserFriends.class);
 		}
 	}
 
@@ -99,6 +106,13 @@ public class UserFriendsDataService {
 	private void removeFriendForOneSide(Long userId, Long friendsUserId) {
 		Query query = new Query(Criteria.where("userId").is(userId));
 		UserFriends userFriends = template.findOne(query, UserFriends.class);
+		
+		//TODO 后期删除
+		if (userFriends == null) {
+			this.addUserFriends(userId);
+			userFriends = template.findOne(query, UserFriends.class);
+		}
+		
 		String friends = userFriends.getFriends();
 		if (!StringUtils.isEmpty(friends)) {
 			JsonArray friendsJson = gson.fromJson(friends, JsonArray.class);
@@ -107,7 +121,7 @@ public class UserFriendsDataService {
 					friendsJson.remove(i);
 				}
 			}
-			template.updateFirst(query, Update.update("friends", friends), UserFriends.class);
+			template.updateFirst(query, Update.update("friends", friendsJson.toString()), UserFriends.class);
 		}
 	}
 }

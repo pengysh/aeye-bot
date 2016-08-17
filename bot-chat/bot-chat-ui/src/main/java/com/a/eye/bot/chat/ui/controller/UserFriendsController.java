@@ -36,6 +36,7 @@ public class UserFriendsController extends ControllerBase {
 	public void getUserFriends(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, HttpServletResponse response) throws IOException {
 		logger.debug("获取用户好友列表：" + userId);
 		String friends = userFriendsServiceProvider.getUserFriends(Long.valueOf(userId));
+		logger.debug("获取到的用户好友列表：" + friends);
 		reply(friends, response);
 	}
 }

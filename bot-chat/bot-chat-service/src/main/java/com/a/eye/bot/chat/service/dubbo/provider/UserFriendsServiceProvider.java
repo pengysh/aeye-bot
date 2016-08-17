@@ -1,5 +1,7 @@
 package com.a.eye.bot.chat.service.dubbo.provider;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.a.eye.bot.chat.service.service.UserFriendsService;
@@ -16,5 +18,9 @@ public class UserFriendsServiceProvider implements IUserFriendsServiceProvider {
 	public String getUserFriends(Long userId) {
 		return userFriendsService.getUserFriends(userId);
 	}
-	
+
+	@Override
+	public Map<Long, Long> getUserFriendIds(Long userId) {
+		return userFriendsService.getUserFriendIds(userId);
+	}
 }

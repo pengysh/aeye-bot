@@ -1,7 +1,7 @@
 function addFriend(userId) {
 	$.ajax({
 		type : "POST",
-		url : "/user/friendsdata/addFriend",
+		url : "/chat/friendsdata/addFriend",
 		data : {
 			"friendsUserId" : userId
 		},
@@ -22,7 +22,7 @@ function addFriend(userId) {
 function removeFriend(userId) {
 	$.ajax({
 		type : "POST",
-		url : "/user/friendsdata/removeFriend",
+		url : "/chat/friendsdata/removeFriend",
 		data : {
 			"friendsUserId" : userId
 		},

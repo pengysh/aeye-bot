@@ -8,9 +8,9 @@ function initWebSocket() {
 	messagews = new ReconnectingWebSocket("ws://www.aeye.com:8104/ws/sendmessage");
 	messagews.onmessage = function(event) {
 		var response = eval('(' + event.data + ')');
+		console.log("收到消息：" + event.data);
 
 		if ('ChatMessage' == response.Cmd) {
-			console.log("收到消息：" + event.data);
 			showNewMessage(response);
 		} else if ('GetChatRecord' == response.Cmd) {
 			var messageList = response.messageList;
@@ -23,6 +23,10 @@ function initWebSocket() {
 					showHisMessage(messageContent);
 				}
 			} else {
+				if(messageList.length == 0){
+					showMessageWithNewFriend();
+				}
+				
 				for (i = messageList.length - 1; i >= 0; i--) {
 					var messageContent = messageList[i];
 					messageContent.userId = getCookie("userId");
@@ -105,6 +109,22 @@ function mergeSendTime(sendTime) {
 	}
 }
 
+function showMessageWithNewFriend() {
+	var userId = $("#input_click_friend_userId").val();
+	var userName = $("#input_click_friend_userName").val();
+	var headImage = $("#input_click_friend_headImage").val();
+	var data = {
+		"messageId" : 1,
+		"sender" : userId,
+		"senderName" : userName,
+		"headImage" : headImage,
+		"message" : "新交的朋友，聊两句吧",
+		"sendTime" : moment().format('x'),
+		"sendTimeFormat" : moment().format("YYYY-MM-DD HH:mm:SS")
+	};
+	showNewMessage(data);
+}
+
 $(document).ready(function() {
 	toastrShow("欢迎使用会议预定系统");
 	$.ajaxSetup({
@@ -124,12 +144,14 @@ $(document).ready(function() {
 		contentType : "application/json;charset=UTF-8",
 		dataType : "json",
 		success : function(data) {
-			console.log(data);
+			console.log("/chat/friend/getUserFriends返回的数据:" + data);
 			var addfriend = [ {
-				"id" : 1,
+				"userId" : 1,
 				"name" : "添加新的朋友",
-				"headImage" : "5.png"
+				"headImage" : "5.png",
+				"state" : "offline"
 			} ];
+
 			var newdata = addfriend.concat(data);
 			var template = $.templates("#addressListTemp");
 			template.link("#div_userlist", newdata);

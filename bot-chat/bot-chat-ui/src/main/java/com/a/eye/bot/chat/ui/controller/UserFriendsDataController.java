@@ -23,8 +23,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @Controller
-@RequestMapping(value = "/user/friendsdata")
-@Api(value = "/user/friendsdata", description = "用户好友数据服务")
+@RequestMapping(value = "/friendsdata")
+@Api(value = "/friendsdata", description = "用户好友数据服务")
 public class UserFriendsDataController extends ControllerBase {
 
 	private static Logger logger = LogManager.getLogger(UserFriendsDataController.class.getName());
