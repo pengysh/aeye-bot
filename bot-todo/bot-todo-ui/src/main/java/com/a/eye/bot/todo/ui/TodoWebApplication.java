@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootApplication
 @EnableWebMvc
 @EnableAutoConfiguration
-@ComponentScan("com.a.eye.bot.common.ui.config")
+@ComponentScan("com.a.eye.bot.common.ui.config,com.a.eye.bot.common.ui.web")
 @ImportResource(locations = { "classpath:applicationContext-dubbo.xml" })
 public class TodoWebApplication extends SpringBootServletInitializer {
 	private static Logger logger = LogManager.getLogger(TodoWebApplication.class.getName());

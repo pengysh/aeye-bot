@@ -1,10 +1,8 @@
 package com.a.eye.bot.chat.service.entity;
 
-import com.google.gson.Gson;
-
 public class Group {
 
-	private Gson gson = new Gson();
+	private String _id;
 
 	private String title;
 
@@ -15,7 +13,7 @@ public class Group {
 	private String purpose;
 
 	private boolean publicOrPrivate;
-	
+
 	public Group(String title, String purpose, boolean publicOrPrivate, String users, Integer userCount) {
 		this.title = title;
 		this.purpose = purpose;
@@ -27,14 +25,6 @@ public class Group {
 	@Override
 	public String toString() {
 		return "ChatGroup [ title=" + title + ",purpose=" + purpose + ",publicOrPrivate=" + publicOrPrivate + ", usercount=" + userCount + ", users=" + users + "]";
-	}
-
-	public Gson getGson() {
-		return gson;
-	}
-
-	public void setGson(Gson gson) {
-		this.gson = gson;
 	}
 
 	public String getTitle() {
@@ -75,5 +65,13 @@ public class Group {
 
 	public void setPublicOrPrivate(boolean publicOrPrivate) {
 		this.publicOrPrivate = publicOrPrivate;
+	}
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 }

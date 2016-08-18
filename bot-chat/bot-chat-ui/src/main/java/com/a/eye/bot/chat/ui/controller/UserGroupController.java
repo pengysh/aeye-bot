@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @Controller
-@RequestMapping(value = "/group", produces = { "application/json;charset=UTF-8" })
-@Api(value = "/group", description = "用户群组服务")
+@RequestMapping(value = "/topic", produces = { "application/json;charset=UTF-8" })
+@Api(value = "/topic", description = "用户话题服务")
 public class UserGroupController extends ControllerBase {
 
 	private static Logger logger = LogManager.getLogger(UserGroupController.class.getName());
@@ -30,10 +30,10 @@ public class UserGroupController extends ControllerBase {
 	@Reference
 	private IUserGroupServiceProvider userGroupServiceProvider;
 
-	@RequestMapping(value = "getUserGroup", method = RequestMethod.POST)
-	@ApiOperation(notes = "getUserGroup", httpMethod = "POST", value = "用户群组列表")
+	@RequestMapping(value = "getUserTopic", method = RequestMethod.POST)
+	@ApiOperation(notes = "getUserTopic", httpMethod = "POST", value = "用户话题服务")
 	@ResponseBody
-	public void getUserGroup(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, HttpServletResponse response) throws IOException {
+	public void getUserTopic(@ApiParam(required = true, value = "userFriends data") @CookieValue("userId") String userId, HttpServletResponse response) throws IOException {
 		logger.debug("获取用户群组列表：" + userId);
 		String groups = userGroupServiceProvider.getUserGroup(Long.valueOf(userId));
 		logger.debug("获取到的用户群组列表：" + groups);

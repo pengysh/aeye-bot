@@ -1,43 +1,19 @@
-function addFriend(userId) {
-	$.ajax({
-		type : "POST",
-		url : "/chat/friendsdata/addFriend",
-		data : {
-			"friendsUserId" : userId
-		},
-		contentType : "application/x-www-form-urlencoded",
-		dataType : "text",
-		success : function(data) {
-			console.log("添加好友成功");
-			$(staffdata).each(function() {
-				if(userId == this.id){
-					this.isFriend = true;
-				}
-			});
-			var template = $.templates("#staffListTemp");
-			template.link("#div_addfriend", staffdata);
-		},
-	});
-}
+function showTopicChatRecord(groupId) {
+	console.log("点击的话题：" + groupId);
+	$("#topicId").val(groupId);
+	var content = {};
+	content.fromSendTime = moment().format('x');
+	content.chatAboutId = groupId;
+	content.userId = getCookie("userId");
+	content.newOrHis = "new";
+	content.isTopic = true;
+	sendMessage("GetChatRecord", content);
 
-function removeFriend(userId) {
-	$.ajax({
-		type : "POST",
-		url : "/chat/friendsdata/removeFriend",
-		data : {
-			"friendsUserId" : userId
-		},
-		contentType : "application/x-www-form-urlencoded",
-		dataType : "text",
-		success : function(data) {
-			$(staffdata).each(function() {
-				if(userId == this.id){
-					this.isFriend = false;
-				}
-			});
-
-			var template = $.templates("#staffListTemp");
-			template.link("#div_addfriend", staffdata);
-		},
-	});
+	$("#div_messageContent").empty();
+	$("#input_message_friend").hide();
+	$("#input_message_topic").show();
+	
+	$("#input_click_friend_userId").val(1);
+	$("#input_click_friend_userName").val("系统");
+	$("#input_click_friend_headImage").val("10.png");
 }

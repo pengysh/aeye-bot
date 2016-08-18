@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.a.eye.bot.chat.service.entity.Group;
 import com.a.eye.bot.chat.service.entity.UserGroup;
 import com.a.eye.bot.chat.share.entity.UserChatGroupContent;
-import com.a.eye.bot.chat.share.util.PersonChatGroupIdGen;
 import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
 import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
 import com.google.gson.Gson;
@@ -51,16 +50,16 @@ public class UserGroupService {
 	public String getUserGroup(Long userId) {
 		Query query = new Query(Criteria.where("userId").is(userId));
 		UserGroup userChatGroup = template.findOne(query, UserGroup.class);
-		String groups = userChatGroup.getGroups();
-		JsonArray groupJson = gson.fromJson(groups, JsonArray.class);
 
 		List<UserChatGroupContent> groupList = new ArrayList<UserChatGroupContent>();
-		for (int i = 0; i < groupJson.size(); i++) {
-			JsonObject group = groupJson.get(i).getAsJsonObject();
-			String groupId = group.get("groupId").getAsString();
-			boolean realGroup = group.get("realGroup").getAsBoolean();
-			if (realGroup) {
-				Group groupInfo = groupService.getGroupInfo(Long.valueOf(groupId));
+		if (userChatGroup != null) {
+			String groups = userChatGroup.getGroups();
+			JsonArray groupJson = gson.fromJson(groups, JsonArray.class);
+
+			for (int i = 0; i < groupJson.size(); i++) {
+				JsonObject group = groupJson.get(i).getAsJsonObject();
+				String groupId = group.get("groupId").getAsString();
+				Group groupInfo = groupService.getGroupInfo(groupId);
 				UserChatGroupContent userChatGroupContent = new UserChatGroupContent();
 				userChatGroupContent.setGroupId(groupId);
 				userChatGroupContent.setGroupTitle(groupInfo.getTitle());
@@ -73,17 +72,6 @@ public class UserGroupService {
 					UserCacheInfo userCacheInfo = userInfoJedisRepository.selectUserInfo(groupUserId);
 					userChatGroupContent.getHeadImages().add(userCacheInfo.getHeadImage());
 				}
-
-				groupList.add(userChatGroupContent);
-			} else {
-				Long togetherUserId = PersonChatGroupIdGen.getTogetherUserId(groupId, userId);
-				UserCacheInfo userCacheInfo = userInfoJedisRepository.selectUserInfo(togetherUserId);
-
-				UserChatGroupContent userChatGroupContent = new UserChatGroupContent();
-				userChatGroupContent.setGroupId(groupId);
-				userChatGroupContent.setGroupTitle(userCacheInfo.getName());
-				userChatGroupContent.setMemberCount(0);
-				userChatGroupContent.getHeadImages().add(userCacheInfo.getHeadImage());
 
 				groupList.add(userChatGroupContent);
 			}

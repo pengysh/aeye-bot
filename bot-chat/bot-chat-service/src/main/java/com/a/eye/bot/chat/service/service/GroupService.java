@@ -34,8 +34,8 @@ public class GroupService {
 	 * @param groupId
 	 * @return
 	 */
-	public List<Long> getGroupUserIds(Long groupId) {
-		Query query = new Query(Criteria.where("groupId").is(groupId));
+	public List<Long> getGroupUserIds(String groupId) {
+		Query query = new Query(Criteria.where("_id").is(groupId));
 		Group chatGroup = template.findOne(query, Group.class);
 		String users = chatGroup.getUsers();
 		List<Long> storeUserIds = gson.fromJson(users, new TypeToken<List<Long>>() {
@@ -51,8 +51,8 @@ public class GroupService {
 	 * @param groupId
 	 * @return
 	 */
-	public Group getGroupInfo(Long groupId) {
-		Query query = new Query(Criteria.where("groupId").is(groupId));
+	public Group getGroupInfo(String groupId) {
+		Query query = new Query(Criteria.where("_id").is(groupId));
 		Group chatGroup = template.findOne(query, Group.class);
 		return chatGroup;
 	}

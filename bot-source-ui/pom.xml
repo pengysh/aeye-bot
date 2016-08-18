@@ -13,6 +13,16 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>chosen</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap-switch</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>font-awesome</artifactId>
 			<version>4.6.3</version>

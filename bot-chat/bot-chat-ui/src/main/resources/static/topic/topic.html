@@ -8,23 +8,9 @@
 <body>
 	<script src="/chat/topic/topic.js"></script>
 	<!-- 定义JsRender模版 -->
-	<script id="staffListTemp" type="text/x-jsrender">
-	<div class="chat-user">
-		{{if isFriend==true}}
-			<span class="pull-right label label-danger ladda-button">
-				<a href="javascript:removeFriend({{:id}});">删除好友</a>
-			</span>
-		{{/if}}
-		{{if isFriend==false}}
-			<span class="pull-right label label-primary">
-				<a href="javascript:addFriend({{:id}});">加为好友</a>
-			</span>
-		{{/if}}
-		<img class="chat-avatar" src="http://www.aeye.com/source/image/{{:headImage}}" alt="">
-		<div class="chat-user-name">
-			{{:name}}
-		</div>
-	</div>
+	<script id="topicListTemp" type="text/x-jsrender">
+	<li><a href="javascript:showTopicChatRecord('{{:groupId}}');">{{:groupTitle}} <span class="label label-warning pull-right"></span>
+	</a></li>
 	</script>
 </body>
 </html>

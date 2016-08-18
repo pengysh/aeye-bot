@@ -1,5 +1,6 @@
 package com.a.eye.bot.chat.service.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -33,10 +34,12 @@ public class UserGroupDataService {
 	 * @Description:用户注册时同时创建用户群
 	 * @param userId
 	 */
-	public void createUserChatGroup(Long userId) {
-		template.insert(new UserGroup(userId));
+	public UserGroup createUserChatGroup(Long userId) {
+		UserGroup uesrGroup = new UserGroup(userId);
+		template.insert(uesrGroup);
+		return uesrGroup;
 	}
-	
+
 	/**
 	 * @Title: joinGroup
 	 * @author: pengysh
@@ -45,16 +48,27 @@ public class UserGroupDataService {
 	 * @param userId
 	 * @param groupId
 	 */
-	public void joinGroup(Long userId, String groupId, Boolean realGroup) {
+	public void joinGroup(Long userId, String groupId) {
 		Query query = new Query(Criteria.where("userId").is(userId));
 		UserGroup userChatGroup = template.findOne(query, UserGroup.class);
+		if (userChatGroup == null) {
+			userChatGroup = this.createUserChatGroup(userId);
+		}
+
 		String groups = userChatGroup.getGroups();
-		JsonArray groupJson = gson.fromJson(groups, JsonArray.class);
-		JsonObject group = new JsonObject();
-		group.addProperty("realGroup", realGroup);
-		group.addProperty("groupId", groupId);
-		groupJson.add(group);
-		template.updateFirst(query, Update.update("groups", groupJson.toString()), UserGroup.class);
+		if (StringUtils.isNotBlank(groups)) {
+			JsonArray groupJson = gson.fromJson(groups, JsonArray.class);
+			JsonObject group = new JsonObject();
+			group.addProperty("groupId", groupId);
+			groupJson.add(group);
+			template.updateFirst(query, Update.update("groups", groupJson.toString()), UserGroup.class);
+		} else {
+			JsonArray groupJson = new JsonArray();
+			JsonObject group = new JsonObject();
+			group.addProperty("groupId", groupId);
+			groupJson.add(group);
+			template.updateFirst(query, Update.update("groups", groupJson.toString()), UserGroup.class);
+		}
 	}
 
 	/**

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.a.eye.bot.chat.service.service.GroupDataService;
 import com.a.eye.bot.chat.share.dubbo.provider.IGroupDataServiceProvider;
 import com.alibaba.dubbo.config.annotation.Service;
-import com.google.gson.JsonArray;
 
 @Service
 public class GroupDataServiceProvider implements IGroupDataServiceProvider {
@@ -14,7 +13,7 @@ public class GroupDataServiceProvider implements IGroupDataServiceProvider {
 	private GroupDataService groupDataService;
 
 	@Override
-	public void createChatGroup(String title, String purpose, boolean publicOrPrivate, JsonArray userJson) {
-		groupDataService.createChatGroup(title, purpose, publicOrPrivate, userJson);
+	public void createChatGroup(String title, String purpose, boolean publicOrPrivate, String userJsonStr) {
+		groupDataService.createChatGroup(title, purpose, publicOrPrivate, userJsonStr);
 	}
 }

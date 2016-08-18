@@ -49,8 +49,9 @@ function initWebSocket() {
 		console.log("messagews:onerror", messagews.readyState);
 	};
 }
-function sendMsg() {
-	var input = $("#input_message").val();
+
+function sendMsgToFriend() {
+	var input = $("#input_message_friend").val();
 
 	var content = {};
 	content.message = input;
@@ -58,7 +59,19 @@ function sendMsg() {
 	content.sender = getCookie("userId");
 
 	sendMessage("PersonChat", content);
-	$("#input_message").val("");
+	$("#input_message_friend").val("");
+}
+
+function sendMsgToTopic() {
+	var input = $("#input_message_topic").val();
+
+	var content = {};
+	content.message = input;
+	content.topicId = $("#topicId").val();
+	content.sender = getCookie("userId");
+
+	sendMessage("TopicChat", content);
+	$("#input_message_topic").val("");
 }
 
 function sendMessage(cmd, content) {
@@ -133,17 +146,57 @@ $(document).ready(function() {
 
 	initWebSocket();
 
-	$("#div_message_box").hide();
+	$("#input_message_friend").hide();
+	$("#input_message_topic").hide();
 	$("#div_addresslisttemp").load("/chat/addresslist.html");
 	$("#div_messagetemp").load("/chat/message.html");
 	$("#div_stafflisttemp").load("/chat/friend/staff.html");
 	$("#div_addfriend_container").hide();
-	
+
+	$("#div_addtopictemp").load("/chat/topic/addtopic.html");
+	$("#div_topicListtemp").load("/chat/topic/topic.html");
+
+	$("#div_addtopic_container").hide();
+
+	$("#btn_addfriend_back").hide();
+	$("#btn_addfriend_add").click(function() {
+		$("#div_chat_container").hide();
+		addFriendShow();
+		$("#btn_addfriend_back").show();
+		$("#btn_addfriend_add").hide();
+	});
+
 	$("#btn_addfriend_back").click(function() {
 		$("#div_addfriend_container").hide();
 		$("#div_chat_container").show();
+		$("#btn_addfriend_back").hide();
+		getUserFriends();
+		$("#btn_addfriend_add").show();
 	});
 
+	getUserFriends();
+
+	$("#btn_addtopic_back").hide();
+	$("#btn_addtopic_add").click(function() {
+		$("#div_topicdown_container").hide();
+		$("#div_addtopic_container").show();
+		addTopicShow();
+		$("#btn_addtopic_back").show();
+		$("#btn_addtopic_add").hide();
+	});
+
+	$("#btn_addtopic_back").click(function() {
+		$("#div_addtopic_container").hide();
+		$("#div_topicdown_container").show();
+		$("#btn_addtopic_back").hide();
+		getUserFriends();
+		$("#btn_addtopic_add").show();
+	});
+	getUserTopics();
+});
+
+var userFriendsData;
+function getUserFriends() {
 	$.ajax({
 		type : "POST",
 		url : "/chat/friend/getUserFriends",
@@ -151,28 +204,25 @@ $(document).ready(function() {
 		contentType : "application/json;charset=UTF-8",
 		dataType : "json",
 		success : function(data) {
+			userFriendsData = data;
 			console.log("/chat/friend/getUserFriends返回的数据:" + data);
-			var addfriend = [ {
-				"userId" : 1,
-				"name" : "添加新的朋友",
-				"headImage" : "5.png",
-				"state" : "offline"
-			} ];
-
-			var newdata = addfriend.concat(data);
 			var template = $.templates("#addressListTemp");
-			template.link("#div_userlist", newdata);
+			template.link("#div_userlist", data);
 		},
 	});
-	
-	$("#div_topicListtemp").load("/chat/topic/topic.html");
-	var addTopic = [ {
-		"userId" : 1,
-		"name" : "添加新的朋友",
-		"headImage" : "5.png",
-		"state" : "offline"
-	} ];
+}
 
-	var template = $.templates("#addressListTemp");
-	template.link("#div_userlist", newdata);
-});
+function getUserTopics() {
+	$.ajax({
+		type : "POST",
+		url : "/chat/topic/getUserTopic",
+		data : {},
+		contentType : "application/json;charset=UTF-8",
+		dataType : "json",
+		success : function(data) {
+			console.log("/chat/topic/getUserTopic返回的数据:" + data);
+			var template = $.templates("#topicListTemp");
+			template.link("#ul_topic_container", data);
+		},
+	});
+}

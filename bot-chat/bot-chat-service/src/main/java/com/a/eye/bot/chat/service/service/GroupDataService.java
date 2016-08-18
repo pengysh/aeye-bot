@@ -2,6 +2,8 @@ package com.a.eye.bot.chat.service.service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -23,10 +25,15 @@ import com.google.gson.reflect.TypeToken;
 @Service
 public class GroupDataService {
 
+	private static Logger logger = LogManager.getLogger(GroupDataService.class.getName());
+
 	private Gson gson = new Gson();
 
 	@Autowired
 	private MongoTemplate template;
+
+	@Autowired
+	private UserGroupDataService userGroupDataService;
 
 	/**
 	 * @Title: createChatGroup
@@ -37,10 +44,17 @@ public class GroupDataService {
 	 * @param title
 	 * @param userIds
 	 */
-	public void createChatGroup(String title, String purpose, boolean publicOrPrivate, JsonArray userJson) {
-		String users = userJson.toString();
-		Integer userCount = userJson.size();
-		template.insert(new Group(title, purpose, publicOrPrivate, users, userCount));
+	public void createChatGroup(String title, String purpose, boolean publicOrPrivate, String userJsonStr) {
+		JsonArray members = gson.fromJson(userJsonStr, JsonArray.class);
+		Integer userCount = members.size();
+		Group group = new Group(title, purpose, publicOrPrivate, userJsonStr, userCount);
+		template.insert(group);
+		logger.debug("创建话题：_id:" + group.get_id());
+
+		for (int i = 0; i < members.size(); i++) {
+			Long member = members.get(i).getAsLong();
+			userGroupDataService.joinGroup(member, group.get_id());
+		}
 	}
 
 	/**

@@ -30,6 +30,7 @@ public class GetChatRecordProducerExecuter extends CmdProducerExecuter {
 	private static final String FromSendTime_Param = "fromSendTime";
 	private static final String UserId_Param = "userId";
 	private static final String ChatAboutId_Param = "chatAboutId";
+	private static final String Is_Topic_Param = "isTopic";
 	private static final String NewOrHis_Param = "newOrHis";
 
 	public void sendMessage(JsonObject contentJson) {
@@ -38,10 +39,12 @@ public class GetChatRecordProducerExecuter extends CmdProducerExecuter {
 		content.setUserId(contentJson.get(UserId_Param).getAsLong());
 		content.setNewOrHis(contentJson.get(NewOrHis_Param).getAsString());
 
+		boolean isTopic = contentJson.get(Is_Topic_Param).getAsBoolean();
 		String chatAboutId = contentJson.get(ChatAboutId_Param).getAsString();
-		String[] chatAboutIds = chatAboutId.split("-");
-		chatAboutId = PersonChatGroupIdGen.gen(Long.valueOf(chatAboutIds[0]), Long.valueOf(chatAboutIds[1]));
-
+		if (!isTopic) {
+			String[] chatAboutIds = chatAboutId.split("-");
+			chatAboutId = PersonChatGroupIdGen.gen(Long.valueOf(chatAboutIds[0]), Long.valueOf(chatAboutIds[1]));
+		}
 		content.setChatAboutId(chatAboutId);
 		content.setFromSendTime(contentJson.get(FromSendTime_Param).getAsLong());
 

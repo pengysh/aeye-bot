@@ -1,10 +1,10 @@
 package com.a.eye.bot.chat.share.content;
 
-public class PersonTalkContent {
+public class TopicChatContent {
 
 	private Long sender;
 
-	private Long receiver;
+	private String topicId;
 
 	private String message;
 
@@ -16,14 +16,6 @@ public class PersonTalkContent {
 
 	public void setSender(Long sender) {
 		this.sender = sender;
-	}
-
-	public Long getReceiver() {
-		return receiver;
-	}
-
-	public void setReceiver(Long receiver) {
-		this.receiver = receiver;
 	}
 
 	public String getMessage() {
@@ -40,5 +32,13 @@ public class PersonTalkContent {
 
 	public void setSendTime(Long sendTime) {
 		this.sendTime = sendTime;
+	}
+
+	public String getTopicId() {
+		return topicId;
+	}
+
+	public void setTopicId(String topicId) {
+		this.topicId = topicId;
 	}
 }
