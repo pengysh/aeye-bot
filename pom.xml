@@ -203,5 +203,6 @@
 		<module>bot-interfaces</module>
 		<module>bot-source-ui</module>
 		<module>bot-common-cache</module>
-	</modules>
+    <module>bot-nlp</module>
+  </modules>
 </project>
