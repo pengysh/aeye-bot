@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
-	xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context
@@ -14,22 +16,31 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 		http://mybatis.org/schema/mybatis-spring
 		http://mybatis.org/schema/mybatis-spring.xsd">
-	
-	<context:component-scan base-package="com.a.eye.bot.chat.service,com.a.eye.bot.chat.share,com.a.eye.bot.common.cache.redis,com.a.eye.bot.common.util" />
 
-	<bean id="servicePropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="order" value="1" />
-		<property name="ignoreUnresolvablePlaceholders" value="true" />
-		<property name="locations">
-			<list>
-				<value>classpath:properties/mongo.properties</value>
-				<value>classpath:properties/kafka.properties</value>
-				<value>classpath:properties/redis.properties</value>
-			</list>
-		</property>
-	</bean>
-	<import resource="applicationContext-mongo.xml" />
-	<import resource="applicationContext-dubbo.xml" />
-	<import resource="applicationContext-redis.xml"/>
-	<import resource="applicationContext-message.xml"/>
+    <context:component-scan
+            base-package="com.a.eye.bot.chat.service,com.a.eye.bot.chat.share,com.a.eye.bot.common.cache.redis,com.a.eye.bot.common.util,com.a.eye.bot.common.message.robot,com.a.eye.bot.system,com.a.eye.bot.interfaces"/>
+
+    <bean id="botInit" class="com.a.eye.bot.chat.service.BotInit" init-method="initialize">
+    </bean>
+
+    <bean id="servicePropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:properties/mongo.properties</value>
+                <value>classpath:properties/kafka.properties</value>
+                <value>classpath:properties/redis.properties</value>
+            </list>
+        </property>
+    </bean>
+    <import resource="applicationContext-mongo.xml"/>
+    <import resource="applicationContext-dubbo.xml"/>
+    <import resource="applicationContext-redis.xml"/>
+    <import resource="applicationContext-message.xml"/>
+    <import resource="applicationContext-common-base.xml"/>
+
+    <import resource="applicationContext-time-service.xml"/>
+    <import resource="applicationContext-system.xml" />
+    <import resource="applicationContext-meetingroom-service.xml"/>
 </beans>

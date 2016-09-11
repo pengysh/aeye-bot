@@ -1,11 +1,12 @@
 package com.a.eye.bot.auth.service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -14,6 +15,7 @@ import org.springframework.boot.SpringApplication;
  * @date 2016年8月8日 下午10:56:23
  * @Description:认证服务启动类
  */
+@SpringBootApplication
 public class UserAuthServiceStartUp {
 	private static Logger logger = LogManager.getLogger(UserAuthServiceStartUp.class.getName());
 

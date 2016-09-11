@@ -1,12 +1,8 @@
 package com.a.eye.bot.nlp.machine.time.nlp;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import com.a.eye.bot.nlp.machine.time.util.DateUtil;
+
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,8 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-
-import com.a.eye.bot.nlp.machine.time.util.DateUtil;
 
 /**
  * <p>
@@ -265,7 +259,7 @@ public class TimeNormalizer implements Serializable {
 	}
 
 	private Pattern readModel(String file) throws Exception {
-		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new GZIPInputStream(new FileInputStream(file))));
+		ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(new GZIPInputStream(this.getClass().getResourceAsStream(file))));
 		return readModel(in);
 	}
 

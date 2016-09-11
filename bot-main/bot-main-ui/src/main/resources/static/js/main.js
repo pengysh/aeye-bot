@@ -3,6 +3,7 @@ $(document).ready(function() {
 });
 
 function gotoMenu(menuPath) {
+	console.log("menuPath:" + menuPath);
 	$("#main_middle").load(menuPath);
 }
 function logout() {

@@ -19,7 +19,11 @@
 	<bean id="producer" class="com.a.eye.bot.common.message.actor.ActorProducer" init-method="start">
 	</bean>
 
-	<bean id="consumer" class="com.a.eye.bot.common.message.actor.ActorConsumer" init-method="start">
+	<bean id="chatconsumer" class="com.a.eye.bot.common.message.actor.ActorConsumer" init-method="start">
 		<property name="topicName" value="${ui_service_topicName}"></property>
+	</bean>
+
+	<bean id="botconsumer" class="com.a.eye.bot.common.message.actor.ActorConsumer" init-method="start">
+		<property name="topicName" value="${command_topicName}"></property>
 	</bean>
 </beans>

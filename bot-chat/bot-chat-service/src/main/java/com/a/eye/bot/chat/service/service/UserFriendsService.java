@@ -1,10 +1,10 @@
 package com.a.eye.bot.chat.service.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.a.eye.bot.chat.service.entity.UserFriends;
+import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
+import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +12,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.a.eye.bot.chat.service.entity.UserFriends;
-import com.a.eye.bot.common.cache.redis.UserInfoJedisRepository;
-import com.a.eye.bot.common.cache.user.entity.UserCacheInfo;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Title: UserFriendsService.java
@@ -28,7 +26,6 @@ import com.google.gson.JsonArray;
  * @Description:用户好友服务
  */
 @Service
-@Transactional
 public class UserFriendsService {
 
 	private static Logger logger = LogManager.getLogger(UserFriendsService.class.getName());

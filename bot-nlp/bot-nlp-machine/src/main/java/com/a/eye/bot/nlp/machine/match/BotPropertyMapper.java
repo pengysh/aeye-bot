@@ -1,9 +1,9 @@
 package com.a.eye.bot.nlp.machine.match;
 
+import com.a.eye.bot.nlp.machine.entity.BotProperty;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.a.eye.bot.nlp.machine.entity.BotProperty;
 
 public class BotPropertyMapper {
 
@@ -19,7 +19,7 @@ public class BotPropertyMapper {
 		BotProperty event = new BotProperty();
 		event.setBotType("Bots");
 		event.setBotPropertyName("event");
-		event.setPropertyWords("[{\"Value\":\"com.ai.bot.meetingscene.message.AskMeWithinTimeMeetingSceneMessage\",\"Pattern\":\"预定|预订|定|订\"}]");
+		event.setPropertyWords("[{\"Value\":\"com.a.eye.bot.meetingscene.message.AskMeWithinTimeMeetingSceneMessage\",\"Pattern\":\"预定|预订|定|订\"}]");
 		event.setDataType("EVENT");
 		event.setPartOfSpeech("VV");
 		vvPropertyList.add(event);

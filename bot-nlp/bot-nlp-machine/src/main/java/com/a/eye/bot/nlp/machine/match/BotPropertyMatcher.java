@@ -1,21 +1,19 @@
 package com.a.eye.bot.nlp.machine.match;
 
+import com.a.eye.bot.nlp.machine.entity.BotProperty;
+import com.a.eye.bot.nlp.machine.service.BotPropertyService;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.a.eye.bot.nlp.machine.BotPropertyMatcherTest;
-import com.a.eye.bot.nlp.machine.entity.BotProperty;
-import com.a.eye.bot.nlp.machine.service.BotPropertyService;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 public class BotPropertyMatcher {
 
@@ -147,12 +145,12 @@ public class BotPropertyMatcher {
 
 				Pattern pattern;
 				if ("DateTime".equals(dataType)) {
-					BotPropertyMatcherTest test = new BotPropertyMatcherTest();
-					pattern = test.getTimePattern();
+//					BotPropertyMatcherTest test = new BotPropertyMatcherTest();
+//					pattern = test.getTimePattern();
 				} else {
 					pattern = Pattern.compile(patternStr);
 				}
-				propertyWordsMap.put(word.get(PropertyValue).getAsString(), new PatternInfo(botPropertyName, dataType, pattern));
+//				propertyWordsMap.put(word.get(PropertyValue).getAsString(), new PatternInfo(botPropertyName, dataType, pattern));
 
 				propertyList.add(propertyWordsMap);
 			}

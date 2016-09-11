@@ -24,6 +24,5 @@
     <module>bot-user-service</module>
     <module>bot-user-share</module>
     <module>bot-user-ui</module>
-    <module>bot-user-cache</module>
   </modules>
 </project>

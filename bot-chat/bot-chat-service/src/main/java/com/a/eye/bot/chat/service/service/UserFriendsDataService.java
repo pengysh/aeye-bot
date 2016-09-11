@@ -1,17 +1,15 @@
 package com.a.eye.bot.chat.service.service;
 
+import com.a.eye.bot.chat.service.entity.UserFriends;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
-import com.a.eye.bot.chat.service.entity.UserFriends;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 /**
  * @Title: UserFriendsDataService.java
@@ -20,7 +18,6 @@ import com.google.gson.JsonArray;
  * @Description:用户好友数据服务
  */
 @Service
-@Transactional
 public class UserFriendsDataService {
 
 	private Gson gson = new Gson();

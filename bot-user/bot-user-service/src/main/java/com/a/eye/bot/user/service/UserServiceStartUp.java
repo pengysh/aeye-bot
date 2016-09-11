@@ -1,11 +1,12 @@
 package com.a.eye.bot.user.service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Title: ServiceStartUp.java
@@ -13,6 +14,7 @@ import org.springframework.boot.SpringApplication;
  * @date 2016年8月9日 上午12:47:46
  * @Description:用户服务启动类
  */
+@SpringBootApplication
 public class UserServiceStartUp {
 	private static Logger logger = LogManager.getLogger(UserServiceStartUp.class.getName());
 

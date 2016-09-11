@@ -7,4 +7,6 @@ public class Constants {
 	public static final String State_Delete = "Delete";
 
 	public static final String EmptyString = "";
+
+	public static final String Y = "Y";
 }
